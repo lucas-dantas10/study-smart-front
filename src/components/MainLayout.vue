@@ -35,7 +35,7 @@
         />
       </div>
     </nav>
-    <main class="flex flex-col flex-1 mt-16">
+    <main class="w-full flex flex-col flex-1">
       <router-view />
     </main>
   </div>
