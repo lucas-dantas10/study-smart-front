@@ -12,7 +12,7 @@
           to="/"
           class="text-base text-gray-900 font-medium cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100"
         >
-          Home
+          Início
         </router-link>
         <router-link
           to="/decks"
