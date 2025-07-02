@@ -112,35 +112,55 @@ function goToStudy(deckId) {
         </label>
       </div>
       <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Recentemente estudados</h3>
-      <div
-        class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-stretch p-4 gap-3">
-          <div v-for="deck in decks.studied_recently" :key="deck.name"
-            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer" @click="goToStudy(deck.id)">
-            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-              :style="{ backgroundImage: `url(${deck.image})` }">
+          <div v-for="deck in decks.studied_recently" :key="deck.id" @click="goToStudy(deck.id)"
+            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer">
+            <div v-if="deck.image" class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
+              :style="{ backgroundImage: `url(${deck.image})` }"></div>
+
+            <div v-else
+              class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6" />
+              </svg>
             </div>
+
             <div>
               <p class="text-base font-medium leading-normal">{{ deck.name }}</p>
               <p class="text-sm font-normal leading-normal dark:text-gray-400">{{ deck.cards }} cards</p>
             </div>
           </div>
+
         </div>
       </div>
       <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Todos os Decks</h3>
-      <div
-        class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-stretch p-4 gap-3">
           <div v-for="deck in decks.all_decks" :key="deck.id" @click="goToStudy(deck.id)"
             class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer">
-            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-              :style="{ backgroundImage: `url(${deck.image})` }">
+            <div v-if="deck.image" class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
+              :style="{ backgroundImage: `url(${deck.image})` }"></div>
+
+            <div v-else
+              class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6" />
+              </svg>
             </div>
+
             <div>
               <p class="text-base font-medium leading-normal">{{ deck.name }}</p>
               <p class="text-sm font-normal leading-normal dark:text-gray-400">{{ deck.cards }} cards</p>
             </div>
           </div>
+
         </div>
       </div>
     </div>
