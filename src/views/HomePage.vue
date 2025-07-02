@@ -56,7 +56,7 @@ const decks = ref({
 const hasDecks = ref(true)
 
 function goToStudy(deckId) {
-  router.push({ name: 'CardPage', params: { deckId } })
+  router.push({ name: 'DeckPage', params: { deckId } })
 }
 </script>
 
@@ -116,7 +116,7 @@ function goToStudy(deckId) {
         class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-stretch p-4 gap-3">
           <div v-for="deck in decks.studied_recently" :key="deck.name"
-            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
+            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer" @click="goToStudy(deck.id)">
             <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
               :style="{ backgroundImage: `url(${deck.image})` }">
             </div>
@@ -131,8 +131,8 @@ function goToStudy(deckId) {
       <div
         class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-stretch p-4 gap-3">
-          <div v-for="deck in decks.all_decks" :key="deck.name"
-            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
+          <div v-for="deck in decks.all_decks" :key="deck.id" @click="goToStudy(deck.id)"
+            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer">
             <div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
               :style="{ backgroundImage: `url(${deck.image})` }">
             </div>
