@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainLayout from '@/components/MainLayout.vue';
-import CardPage from '@/views/CardPage.vue';
+import DeckPage from '@/views/DeckPage.vue';
 import HomePage from '@/views/HomePage.vue';
 
 const routes = [
@@ -14,9 +14,15 @@ const routes = [
         name: 'HomePage'
       },
       {
-        path: '/card',
-        component: CardPage,
-        name: 'CardPage'
+        path: '/deck/:deckId',
+        component: DeckPage,
+        name: 'DeckPage',
+        props: true
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('@/views/NotFoundPage.vue')
       }
     ]
   }
