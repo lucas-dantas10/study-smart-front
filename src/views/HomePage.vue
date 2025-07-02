@@ -48,11 +48,12 @@ const hasDecks = ref(true)
 </script>
 
 <template>
-  <div v-if="!hasDecks" class="flex px-40 py-5 w-full">
+  <div v-if="!hasDecks" class="flex px-40 py-5 w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="layout-content-container flex flex-col flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
-        <p class="text-[#121416] tracking-light text-[32px] font-bold leading-tight min-w-72">Bem vindo de volta,
-          Lucas</p>
+        <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">
+          Bem vindo de volta, Lucas
+        </p>
       </div>
       <div class="flex-1 flex-col items-center px-4 py-6 w-full">
         <div class="flex flex-col items-center gap-6">
@@ -60,30 +61,31 @@ const hasDecks = ref(true)
             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDJRa6PP-ubp76-UMc-wuQOqs4UYfdzLasm7RnisrIZkfJSyrOYDx36dp9luhSFr0407H2G7yZ-AoWat4za-b-qAE_b0Psw1Dm5LuGcdd8J72vCT1jiqIJRoajQN-Na3WjErE1P5BhOdyWpt0FStQ-_1m8E3WHQxKAamFUPF3wi97uF-6ZcRtmn1NaFzi6Uj00KXXH9NMGXBWL8B2hmv4dsMHp1Afp6PHq9W3I_WlIAGCH4RToVGCr_qdqPzxdWAQXfZKbHK5E5Yk-");'>
           </div>
           <div class="flex max-w-[480px] flex-col items-center gap-2">
-            <p class="text-[#121416] text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">
-              Nenhum deck criado ainda</p>
-            <p class="text-[#121416] text-sm font-normal leading-normal max-w-[480px] text-center">Crie seu primeiro
-              deck para começar a estudar</p>
+            <p class="text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">
+              Nenhum deck criado ainda
+            </p>
+            <p class="text-sm font-normal leading-normal max-w-[480px] text-center dark:text-gray-400">
+              Crie seu primeiro deck para começar a estudar
+            </p>
           </div>
           <button
-            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f1f2f4] text-[#121416] text-sm font-bold leading-normal tracking-[0.015em]">
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">
             <span class="truncate">Criar deck</span>
           </button>
         </div>
       </div>
     </div>
   </div>
-  <div v-else class="px-40 flex flex-1 justify-center py-5">
+  <div v-else class="px-40 flex flex-1 justify-center py-5 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
-        <p class="text-[#121416] tracking-light text-[32px] font-bold leading-tight min-w-72">Meus Decks</p>
+        <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">Meus Decks</p>
       </div>
       <div class="px-4 py-3">
         <label class="flex flex-col min-w-40 h-12 w-full">
           <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
             <div
-              class="text-[#6a7681] flex border-none bg-[#f1f2f4] items-center justify-center pl-4 rounded-l-xl border-r-0"
-              data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
+              class="text-[#6a7681] dark:text-gray-400 flex border-none bg-[#f1f2f4] dark:bg-gray-800 items-center justify-center pl-4 rounded-l-xl border-r-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
                 viewBox="0 0 256 256">
                 <path
@@ -92,15 +94,13 @@ const hasDecks = ref(true)
               </svg>
             </div>
             <input placeholder="Busque seus decks"
-              class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] focus:outline-0 focus:ring-0 border-none bg-[#f1f2f4] focus:border-none h-full placeholder:text-[#6a7681] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-              value="" />
+              class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] dark:text-white focus:outline-0 focus:ring-0 border-none bg-[#f1f2f4] dark:bg-gray-800 placeholder:text-[#6a7681] dark:placeholder:text-gray-400 h-full px-4 rounded-l-none text-base font-normal" />
           </div>
         </label>
       </div>
-      <h3 class="text-[#121416] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Recentemente
-        estudados</h3>
+      <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Recentemente estudados</h3>
       <div
-        class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+        class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-stretch p-4 gap-3">
           <div v-for="deck in decks.studied_recently" :key="deck.name"
             class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
@@ -108,15 +108,15 @@ const hasDecks = ref(true)
               :style="{ backgroundImage: `url(${deck.image})` }">
             </div>
             <div>
-              <p class="text-[#121416] text-base font-medium leading-normal">{{ deck.name }}</p>
-              <p class="text-[#6a7681] text-sm font-normal leading-normal">{{ deck.cards }} cards</p>
+              <p class="text-base font-medium leading-normal">{{ deck.name }}</p>
+              <p class="text-sm font-normal leading-normal dark:text-gray-400">{{ deck.cards }} cards</p>
             </div>
           </div>
         </div>
       </div>
-      <h3 class="text-[#121416] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Todos os Decks</h3>
+      <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Todos os Decks</h3>
       <div
-        class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+        class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-stretch p-4 gap-3">
           <div v-for="deck in decks.all_decks" :key="deck.name"
             class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40">
@@ -124,8 +124,8 @@ const hasDecks = ref(true)
               :style="{ backgroundImage: `url(${deck.image})` }">
             </div>
             <div>
-              <p class="text-[#121416] text-base font-medium leading-normal">{{ deck.name }}</p>
-              <p class="text-[#6a7681] text-sm font-normal leading-normal">{{ deck.cards }} cards</p>
+              <p class="text-base font-medium leading-normal">{{ deck.name }}</p>
+              <p class="text-sm font-normal leading-normal dark:text-gray-400">{{ deck.cards }} cards</p>
             </div>
           </div>
         </div>
