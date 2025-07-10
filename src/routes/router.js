@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainLayout from '@/components/MainLayout.vue';
-import DeckPage from '@/views/DeckPage.vue';
+import StudyDeckPage from '@/views/StudyDeckPage.vue';
 import HomePage from '@/views/HomePage.vue';
+import DeckPage from '@/views/Deck/DeckPage.vue';
 
 const routes = [
   {
@@ -15,8 +16,19 @@ const routes = [
       },
       {
         path: '/deck/:deckId',
+        component: StudyDeckPage,
+        name: 'StudyDeckPage',
+        props: true
+      },
+      {
+        path: '/decks',
         component: DeckPage,
-        name: 'DeckPage',
+        name: 'DeckPage'
+      },
+      {
+        path: '/deck/:deckId/manage',
+        name: 'ManageDeckPage',
+        component: () => import('@/views/Deck/ManageDeckPage.vue'),
         props: true
       },
       {

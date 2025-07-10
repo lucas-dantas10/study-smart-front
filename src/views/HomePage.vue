@@ -56,7 +56,7 @@ const decks = ref({
 const hasDecks = ref(true)
 
 function goToStudy(deckId) {
-  router.push({ name: 'DeckPage', params: { deckId } })
+  router.push({ name: 'StudyDeckPage', params: { deckId } })
 }
 </script>
 
