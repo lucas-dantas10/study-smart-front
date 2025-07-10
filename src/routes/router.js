@@ -26,6 +26,11 @@ const routes = [
         name: 'DeckPage'
       },
       {
+        path: '/decks/create',
+        component: () => import('@/views/Deck/CreateDeckFormPage.vue'),
+        name: 'CreateDeckFormPage'
+      },
+      {
         path: '/deck/:deckId/manage',
         name: 'ManageDeckPage',
         component: () => import('@/views/Deck/ManageDeckPage.vue'),

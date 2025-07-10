@@ -27,8 +27,7 @@ const decks = ref([
 ])
 
 function createDeck() {
-    // Aqui você pode abrir modal ou navegar
-    alert('Criar novo deck')
+    router.push({ name: 'CreateDeckFormPage'});
 }
 
 function editDeck(deckId) {
