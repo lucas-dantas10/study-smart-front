@@ -20,12 +20,12 @@
         >
           Decks
         </router-link>
-        <router-link
+        <!-- <router-link
           to="/stats"
           class="text-base text-gray-900 dark:text-white font-medium cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
         >
           Estatísticas
-        </router-link>
+        </router-link> -->
         <span class="text-xl cursor-pointer text-gray-900 dark:text-white" aria-label="Configurações">⚙️</span>
         <img
           class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
