@@ -15,11 +15,11 @@ const cards = ref([
 ])
 
 onMounted(() => {
-  
+  // Aqui você pode buscar os cards do deck usando deckId
 })
 
 function createCard() {
-  router.push({ name: "CreateCardFormPage" });
+  router.push({ name: 'CreateCardFormPage' })
 }
 
 function editCard(cardId) {
@@ -31,15 +31,30 @@ function deleteCard(cardId) {
     cards.value = cards.value.filter(c => c.id !== cardId)
   }
 }
+
+function goBack() {
+  router.back()
+}
 </script>
 
 <template>
   <div class="px-40 flex flex-1 justify-center py-5 bg-white dark:bg-gray-900 text-[#121416] dark:text-white">
     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-      <div class="flex flex-wrap justify-between gap-3 p-4">
-        <div>
-          <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">Gerenciar Cards</p>
-          <p class="text-[#60758a] dark:text-gray-400 text-sm">Deck: {{ deckName }}</p>
+      <div class="flex flex-wrap justify-between gap-3 p-4 items-center">
+        <div class="flex items-center gap-3">
+          <button
+            @click="goBack"
+            class="flex items-center justify-center overflow-hidden rounded-full h-8 w-8 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white hover:bg-[#e1e2e4] dark:hover:bg-gray-600 cursor-pointer transition"
+            title="Voltar"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <div>
+            <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">Gerenciar Cards</p>
+            <p class="text-[#60758a] dark:text-gray-400 text-sm">Deck: {{ deckName }}</p>
+          </div>
         </div>
         <button
           @click="createCard"

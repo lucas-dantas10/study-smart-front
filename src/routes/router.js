@@ -43,6 +43,12 @@ const routes = [
         props: true
       },
       {
+        path: '/deck/:deckId/edit',
+        name: 'EditDeckFormPage',
+        component: () => import('@/views/Deck/EditDeckFormPage.vue'),
+        props: true
+      },
+      {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: () => import('@/views/NotFoundPage.vue')

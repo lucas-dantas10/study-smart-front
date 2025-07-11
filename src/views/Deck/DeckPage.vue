@@ -31,7 +31,7 @@ function createDeck() {
 }
 
 function editDeck(deckId) {
-    alert(`Editar deck ${deckId}`)
+    router.push({ name: 'EditDeckFormPage',  params: { deckId } });
 }
 
 function deleteDeck(deckId) {
