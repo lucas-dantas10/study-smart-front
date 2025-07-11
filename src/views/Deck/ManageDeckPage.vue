@@ -23,7 +23,7 @@ function createCard() {
 }
 
 function editCard(cardId) {
-  alert(`Editar card ${cardId}`)
+  router.push({ name: 'EditCardFormPage', params: { deckId, cardId } })
 }
 
 function deleteCard(cardId) {
