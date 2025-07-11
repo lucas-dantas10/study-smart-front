@@ -6,6 +6,23 @@ const router = useRouter()
 
 const title = ref('')
 const description = ref('')
+const imageFile = ref(null)
+const imagePreview = ref(null)
+
+function handleImageChange(event) {
+  const file = event.target.files[0]
+  if (file) {
+    imageFile.value = file
+    const reader = new FileReader()
+    reader.onload = e => {
+      imagePreview.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+  } else {
+    imageFile.value = null
+    imagePreview.value = null
+  }
+}
 
 function createDeck() {
   if (!title.value.trim()) {
@@ -13,10 +30,13 @@ function createDeck() {
     return
   }
 
-  // Aqui você pode enviar para seu backend
-  alert(`Deck criado:\nTítulo: ${title.value}\nDescrição: ${description.value}`)
-  
-  // Redirecionar para página inicial
+  // Aqui você enviaria o título, descrição e imageFile ao backend
+  alert(`Deck criado:
+    Título: ${title.value}
+    Descrição: ${description.value}
+    Imagem selecionada: ${imageFile.value ? imageFile.value.name : 'Nenhuma'}
+    `)
+
   router.push({ name: 'Home' })
 }
 </script>
@@ -29,6 +49,7 @@ function createDeck() {
       </div>
 
       <div class="flex flex-col gap-6 p-4">
+        <!-- Título -->
         <div class="flex flex-col gap-2">
           <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-title">
             Título do Deck
@@ -43,6 +64,7 @@ function createDeck() {
           />
         </div>
 
+        <!-- Descrição -->
         <div class="flex flex-col gap-2">
           <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-description">
             Descrição <span class="text-sm text-[#6a7681] dark:text-gray-400">(opcional)</span>
@@ -56,6 +78,32 @@ function createDeck() {
           ></textarea>
         </div>
 
+        <!-- Upload de Imagem -->
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-image">
+            Imagem do Deck <span class="text-sm text-[#6a7681] dark:text-gray-400">(opcional)</span>
+          </label>
+          <input
+            id="deck-image"
+            type="file"
+            accept="image/*"
+            @change="handleImageChange"
+            class="block w-full text-sm text-[#6a7681] dark:text-gray-400
+                   file:mr-4 file:py-2 file:px-4
+                   file:rounded-full file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-[#f1f2f4] file:text-[#121416]
+                   hover:file:bg-[#e1e2e4]
+                   dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600"
+          />
+
+          <!-- Preview -->
+          <div v-if="imagePreview" class="mt-2">
+            <img :src="imagePreview" alt="Pré-visualização da imagem" class="rounded-xl max-h-48 object-contain border border-[#f0f2f5] dark:border-gray-700"/>
+          </div>
+        </div>
+
+        <!-- Ações -->
         <div class="flex gap-3">
           <button
             @click="createDeck"

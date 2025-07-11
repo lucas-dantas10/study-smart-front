@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const deckId = route.params.deckId
 
 const deckName = ref('Biology 101')
@@ -14,11 +15,11 @@ const cards = ref([
 ])
 
 onMounted(() => {
-  // Aqui você pode buscar os cards do deck usando deckId
+  
 })
 
 function createCard() {
-  alert('Criar novo card')
+  router.push({ name: "CreateCardFormPage" });
 }
 
 function editCard(cardId) {
