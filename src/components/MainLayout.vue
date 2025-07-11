@@ -1,4 +1,17 @@
 <script setup>
+import { computed } from 'vue'
+// Aqui você vai obter os dados reais do usuário futuramente:
+const user = {
+  name: 'Usuário Exemplo',
+  photo: ''
+}
+
+// Computed para decidir qual imagem mostrar
+const userPhoto = computed(() => {
+  return user.photo
+    ? user.photo
+    : 'https://www.gravatar.com/avatar/?d=mp' // imagem default
+})
 </script>
 
 <template>
@@ -20,19 +33,18 @@
         >
           Decks
         </router-link>
-        <!-- <router-link
-          to="/stats"
-          class="text-base text-gray-900 dark:text-white font-medium cursor-pointer px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+        <!-- Perfil do usuário -->
+        <router-link
+          to="/profile"
+          class="flex items-center justify-center cursor-pointer"
+          aria-label="Abrir perfil do usuário"
         >
-          Estatísticas
-        </router-link> -->
-        <span class="text-xl cursor-pointer text-gray-900 dark:text-white" aria-label="Configurações">⚙️</span>
-        <img
-          class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
-          src="https://randomuser.me/api/portraits/women/44.jpg"
-          alt="Perfil do usuário"
-          aria-label="Perfil do usuário"
-        />
+          <img
+            class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+            :src="userPhoto"
+            alt="Foto de perfil"
+          />
+        </router-link>
       </div>
     </nav>
     <main class="w-full flex flex-col flex-1 text-gray-900 dark:text-white">

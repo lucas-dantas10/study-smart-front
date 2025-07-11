@@ -15,6 +15,11 @@ const routes = [
         name: 'HomePage'
       },
       {
+        path: '/profile',
+        component: () => import('@/views/User/ProfilePage.vue'),
+        name: 'ProfilePage'
+      },
+      {
         path: '/deck/:deckId',
         component: StudyDeckPage,
         name: 'StudyDeckPage',
