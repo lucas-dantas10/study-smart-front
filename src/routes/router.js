@@ -3,11 +3,23 @@ import MainLayout from '@/components/MainLayout.vue';
 import StudyDeckPage from '@/views/StudyDeckPage.vue';
 import HomePage from '@/views/HomePage.vue';
 import DeckPage from '@/views/Deck/DeckPage.vue';
+import LoginPage from '@/views/Auth/LoginPage.vue';
 
 const routes = [
   {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage
+  },
+  {
+    path: '/auth/callback',
+    name: 'AuthCallback',
+    component: () => import('@/views/Auth/AuthCallbackPage.vue')
+  },  
+  {
     path: '/',
     component: MainLayout,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -64,11 +76,22 @@ const routes = [
         name: 'NotFound',
         component: () => import('@/views/NotFoundPage.vue')
       }
-    ]
+    ],
   }
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('token');
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ name: 'LoginPage' });
+  } else {
+    next();
+  }
+});
+
+export default router;
