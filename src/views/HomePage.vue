@@ -1,64 +1,36 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { getDecks } from '@/services/Deck/deckService.js';
+
 const router = useRouter();
-
-// mock decks
-const decks = ref({
-  studied_recently: [
-    {
-      id: 1,
-      name: 'Biology 101',
-      cards: 20,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_taw55CRADeJ9XApLg-d0X9D-BzYucoZXmvIeybg0W-t_kvxzvbXZ8GaU5FZ9SmXkKtiUtJ7cCW3vy6e72gIkEqyhJbX8O1H7hfcwybspeFEhlWhv0DDrp8pwRHSsW3LTwJ-E-NSXYDY_4TZYTwH5IcR8_b8O-Mvz-wuC-G0HuiyAQQD1asIXPWGH1dhoz9WVGYXe43wXFsEHLAR5qJVzolsJI-FEoZwaLhqTsm5XnOtjlRApnqGJhCEXS1DTTNHD_IiQa086YUZd'
-    },
-    {
-      id: 2,
-      name: 'World History',
-      cards: 30,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBF7cvuquTwuuu4OSqF9yIBKvQ5hTF4H7B2EtGQOdvTqZ_0qi4aCnpo7yjL8MjcVggl-4nOuV0GgvJRMmQqVRhcln5bW2pfbxmTckh16ADubCTJOFhvMOKPZsuf9xPSqK3T2hJWlZKl3toZPIiXDoF63Aa0NBO9m2qzVo7eqIBHzazP_AKsvhReJIi7QGLD_kHVmeHW4lJtujRYBNmqu4HrKL9Ei82ZQYeqEeOJaOy3F3tkJdAGDvN8fU5rboNb4Sv0t2NG4LAP_sqP'
-    },
-    {
-      id: 3,
-      name: 'Calculus',
-      cards: 25,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzE3cGQO7SK98QYhHb8b3ndbqI_nVwe_lgqzKmuTpvrT2wYzJhZxH144SpGZ9peDT48FTbpFq-4sJVX0NVdM_XxDZqfesVOvhoACmUvIkIkHj3E_KCydl-iX2ovfzjg49_3BR0kXlcQEqOO5ieNK5VhW8FzkjvoojD99uFCfKgVP9aTEEcSsaRFajS_qjsTkCfzb7499AdSrScc3Mm4Ct1D0G-oeybwOrchj8sa4MGAzllhl4GtVG_eFTNNNiLraft2H4nCjORw1j-'
-    }
-  ],
-  all_decks: [
-    {
-      id: 1,
-      name: 'Biology 101',
-      cards: 40,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_taw55CRADeJ9XApLg-d0X9D-BzYucoZXmvIeybg0W-t_kvxzvbXZ8GaU5FZ9SmXkKtiUtJ7cCW3vy6e72gIkEqyhJbX8O1H7hfcwybspeFEhlWhv0DDrp8pwRHSsW3LTwJ-E-NSXYDY_4TZYTwH5IcR8_b8O-Mvz-wuC-G0HuiyAQQD1asIXPWGH1dhoz9WVGYXe43wXFsEHLAR5qJVzolsJI-FEoZwaLhqTsm5XnOtjlRApnqGJhCEXS1DTTNHD_IiQa086YUZd'
-    },
-    {
-      id: 2,
-      name: 'World History',
-      cards: 10,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBF7cvuquTwuuu4OSqF9yIBKvQ5hTF4H7B2EtGQOdvTqZ_0qi4aCnpo7yjL8MjcVggl-4nOuV0GgvJRMmQqVRhcln5bW2pfbxmTckh16ADubCTJOFhvMOKPZsuf9xPSqK3T2hJWlZKl3toZPIiXDoF63Aa0NBO9m2qzVo7eqIBHzazP_AKsvhReJIi7QGLD_kHVmeHW4lJtujRYBNmqu4HrKL9Ei82ZQYeqEeOJaOy3F3tkJdAGDvN8fU5rboNb4Sv0t2NG4LAP_sqP'
-    },
-    {
-      id: 3,
-      name: 'Calculus',
-      cards: 15,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzE3cGQO7SK98QYhHb8b3ndbqI_nVwe_lgqzKmuTpvrT2wYzJhZxH144SpGZ9peDT48FTbpFq-4sJVX0NVdM_XxDZqfesVOvhoACmUvIkIkHj3E_KCydl-iX2ovfzjg49_3BR0kXlcQEqOO5ieNK5VhW8FzkjvoojD99uFCfKgVP9aTEEcSsaRFajS_qjsTkCfzb7499AdSrScc3Mm4Ct1D0G-oeybwOrchj8sa4MGAzllhl4GtVG_eFTNNNiLraft2H4nCjORw1j-'
-    },
-    {
-      id: 4,
-      name: 'Calculus',
-      cards: 30,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzE3cGQO7SK98QYhHb8b3ndbqI_nVwe_lgqzKmuTpvrT2wYzJhZxH144SpGZ9peDT48FTbpFq-4sJVX0NVdM_XxDZqfesVOvhoACmUvIkIkHj3E_KCydl-iX2ovfzjg49_3BR0kXlcQEqOO5ieNK5VhW8FzkjvoojD99uFCfKgVP9aTEEcSsaRFajS_qjsTkCfzb7499AdSrScc3Mm4Ct1D0G-oeybwOrchj8sa4MGAzllhl4GtVG_eFTNNNiLraft2H4nCjORw1j-'
-    },
-  ]
-});
-
-const hasDecks = ref(true)
+const decks = ref({ studied_recently: [], all_decks: [] });
+const hasDecks = ref(true);
 
 function goToStudy(deckId) {
-  router.push({ name: 'StudyDeckPage', params: { deckId } })
+  router.push({ name: 'StudyDeckPage', params: { deckId } });
 }
+
+onMounted(async () => {
+  try {
+    const apiDecks = await getDecks();
+
+    decks.value.all_decks = apiDecks.map(d => ({
+      id: d.id,
+      name: d.title,
+      cards: 0,
+      image: null
+    }));
+
+    decks.value.studied_recently = decks.value.all_decks.slice(0, 3);
+
+    hasDecks.value = decks.value.all_decks.length > 0;
+  } catch (error) {
+    hasDecks.value = false;
+  }
+});
 </script>
+
 
 <template>
   <div v-if="!hasDecks" class="flex px-40 py-5 w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
