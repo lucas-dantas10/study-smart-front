@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getDecks } from '@/services/Deck/deckService.js';
+import { getDecks } from '@/services/deck/deckService.js';
 
 const router = useRouter();
-const decks = ref({ studied_recently: [], all_decks: [] });
+const decks = ref([]); // só uma lista de decks
 const hasDecks = ref(true);
 
 function goToStudy(deckId) {
@@ -15,22 +15,19 @@ onMounted(async () => {
   try {
     const apiDecks = await getDecks();
 
-    decks.value.all_decks = apiDecks.map(d => ({
+    decks.value = apiDecks.map(d => ({
       id: d.id,
       name: d.title,
       cards: 0,
       image: null
     }));
 
-    decks.value.studied_recently = decks.value.all_decks.slice(0, 3);
-
-    hasDecks.value = decks.value.all_decks.length > 0;
+    hasDecks.value = decks.value.length > 0;
   } catch (error) {
     hasDecks.value = false;
   }
 });
 </script>
-
 
 <template>
   <div v-if="!hasDecks" class="flex px-40 py-5 w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -61,11 +58,13 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+
   <div v-else class="px-40 flex flex-1 justify-center py-5 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
-        <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">Meus Decks</p>
+        <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">Todos os Decks</p>
       </div>
+
       <div class="px-4 py-3">
         <label class="flex flex-col min-w-40 h-12 w-full">
           <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
@@ -83,15 +82,13 @@ onMounted(async () => {
           </div>
         </label>
       </div>
-      <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Recentemente estudados</h3>
-      <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div class="flex items-stretch p-4 gap-3">
-          <div v-for="deck in decks.studied_recently" :key="deck.id" @click="goToStudy(deck.id)"
-            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer">
-            <div v-if="deck.image" class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-              :style="{ backgroundImage: `url(${deck.image})` }"></div>
 
-            <div v-else
+      <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div class="flex items-stretch p-4 gap-3 w-full flex-wrap">
+          <div v-for="deck in decks" :key="deck.id" @click="goToStudy(deck.id)"
+            class="flex h-full flex-col gap-4 rounded-lg min-w-40 cursor-pointer max-w-xs">
+            
+            <div
               class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -103,36 +100,8 @@ onMounted(async () => {
 
             <div>
               <p class="text-base font-medium leading-normal">{{ deck.name }}</p>
-              <p class="text-sm font-normal leading-normal dark:text-gray-400">{{ deck.cards }} cards</p>
             </div>
           </div>
-
-        </div>
-      </div>
-      <h3 class="text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Todos os Decks</h3>
-      <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div class="flex items-stretch p-4 gap-3">
-          <div v-for="deck in decks.all_decks" :key="deck.id" @click="goToStudy(deck.id)"
-            class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer">
-            <div v-if="deck.image" class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl flex flex-col"
-              :style="{ backgroundImage: `url(${deck.image})` }"></div>
-
-            <div v-else
-              class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6" />
-              </svg>
-            </div>
-
-            <div>
-              <p class="text-base font-medium leading-normal">{{ deck.name }}</p>
-              <p class="text-sm font-normal leading-normal dark:text-gray-400">{{ deck.cards }} cards</p>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>

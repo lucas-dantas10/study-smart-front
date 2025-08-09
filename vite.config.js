@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: import.meta.env.STUDY_SMART_API_BASE_URL,
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, defineEmits, defineProps, onMounted } from 'vue'
+import { ref, watch, computed, defineEmits, defineProps } from 'vue'
 import confetti from 'canvas-confetti'
 
 const props = defineProps({
@@ -15,7 +15,7 @@ const currentIndex = ref(0)
 const showAnswer = ref(false)
 const finished = ref(false)
 
-const totalCards = props.cards.length
+const totalCards = computed(() => props.cards.length)
 
 watch(() => props.cards, () => {
   currentIndex.value = 0
@@ -35,7 +35,7 @@ function evaluateCard(level) {
 
   showAnswer.value = false
 
-  if (currentIndex.value < totalCards - 1) {
+  if (currentIndex.value < totalCards.value - 1) {
     currentIndex.value++
   } else {
     finished.value = true
@@ -110,7 +110,7 @@ function launchConfetti() {
               </div>
 
               <h1 class="text-3xl font-bold mb-4 text-center leading-snug">
-                {{ props.cards[currentIndex].question }}
+                {{ props.cards[currentIndex].front_text }}
               </h1>
 
               <transition name="fade-slide">
@@ -119,7 +119,7 @@ function launchConfetti() {
                   class="w-full max-w-[300px] mx-auto bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-6 py-4 mb-6 text-center shadow"
                 >
                   <p class="text-xl font-semibold">
-                    {{ props.cards[currentIndex].answer }}
+                    {{ props.cards[currentIndex].back_text }}
                   </p>
                 </div>
               </transition>
