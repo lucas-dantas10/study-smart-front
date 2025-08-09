@@ -10,4 +10,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: import.meta.env.STUDY_SMART_API_BASE_URL,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })
