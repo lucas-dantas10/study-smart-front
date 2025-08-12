@@ -1,19 +1,16 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router';
+import { me } from '@/services/auth/authService.js';
+const user = ref({});
 
-const router = useRouter()
-
-// Mock do usuário
-const user = ref({
-  name: 'Usuário Exemplo',
-  email: 'usuario@example.com',
-  photo: '' // URL da foto ou vazio
-})
+onMounted(async () => {
+  user.value = await me();
+});
 
 const userPhoto = computed(() =>
-  user.value.photo
-    ? user.value.photo
+  user.value.picture
+    ? user.value.picture
     : 'https://www.gravatar.com/avatar/?d=mp'
 )
 
@@ -32,7 +29,7 @@ function editProfile() {
           alt="Foto de perfil"
           class="w-28 h-28 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700 transition-transform group-hover:scale-105"
         />
-        <button
+        <!-- <button
           @click="editProfile"
           class="absolute bottom-0 right-0 p-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full border-2 border-white dark:border-gray-800"
           title="Editar foto"
@@ -40,7 +37,7 @@ function editProfile() {
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l3.536-3.536a2 2 0 112.828 2.828L11.828 13.828a2 2 0 01-2.828 0L9 13m0 0l-2 2m2-2l2 2"/>
           </svg>
-        </button>
+        </button> -->
       </div>
 
       <!-- Dados -->
@@ -50,7 +47,7 @@ function editProfile() {
       </div>
 
       <!-- Botão -->
-      <button
+      <!-- <button
         @click="editProfile"
         class="flex items-center justify-center gap-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2 transition-colors shadow"
       >
@@ -58,7 +55,7 @@ function editProfile() {
           <path d="M227.31,72.69l-44-44a16,16,0,0,0-22.62,0L40,149.38V208a16,16,0,0,0,16,16h58.62L227.31,95.31A16,16,0,0,0,227.31,72.69ZM96,192H64V160l92-92,32,32Z"/>
         </svg>
         Editar Perfil
-      </button>
+      </button> -->
     </div>
   </div>
 </template>

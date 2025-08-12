@@ -134,19 +134,19 @@ function launchConfetti() {
 
               <div class="flex flex-wrap justify-center gap-4 w-full max-w-[600px] mx-auto">
                 <button
-                  @click="evaluateCard('easy')"
+                  @click="evaluateCard(3)"
                   class="flex-1 min-w-[120px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-base px-6 py-3 rounded-full font-medium cursor-pointer transition-colors duration-200 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   Fácil
                 </button>
                 <button
-                  @click="evaluateCard('medium')"
+                  @click="evaluateCard(2)"
                   class="flex-1 min-w-[120px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-base px-6 py-3 rounded-full font-medium cursor-pointer transition-colors duration-200 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   Médio
                 </button>
                 <button
-                  @click="evaluateCard('hard')"
+                  @click="evaluateCard(1)"
                   class="flex-1 min-w-[120px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-base px-6 py-3 rounded-full font-medium cursor-pointer transition-colors duration-200 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   Difícil

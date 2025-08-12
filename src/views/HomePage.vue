@@ -2,10 +2,12 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { getDecks } from '@/services/deck/deckService.js';
+import { me } from '@/services/auth/authService.js';
 
 const router = useRouter();
 const decks = ref([]);
 const hasDecks = ref(true);
+const user = ref({});
 
 function goToStudy(deckId) {
   router.push({ name: 'StudyDeckPage', params: { deckId } });
@@ -14,8 +16,9 @@ function goToStudy(deckId) {
 onMounted(async () => {
   try {
     const apiDecks = await getDecks();
+    user.value = await me();
 
-    decks.value = apiDecks.map(d => ({
+    decks.value = await apiDecks.map(d => ({
       id: d.id,
       name: d.title,
       cards: 0,
@@ -27,6 +30,10 @@ onMounted(async () => {
     hasDecks.value = false;
   }
 });
+
+function goToCreateDeck() {
+  router.push({ name: "CreateDeckFormPage" });
+}
 </script>
 
 <template>
@@ -34,7 +41,7 @@ onMounted(async () => {
     <div class="layout-content-container flex flex-col flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
         <p class="tracking-light text-[32px] font-bold leading-tight min-w-72">
-          Bem vindo de volta, Lucas
+          Bem vindo de volta, {{ user.name }}
         </p>
       </div>
       <div class="flex-1 flex-col items-center px-4 py-6 w-full">
@@ -51,6 +58,7 @@ onMounted(async () => {
             </p>
           </div>
           <button
+            @click="goToCreateDeck"
             class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">
             <span class="truncate">Criar deck</span>
           </button>

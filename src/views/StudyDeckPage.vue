@@ -9,7 +9,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import StudyDeck from '@/components/Card/StudyCard.vue';
-import { getCardsByDeckId } from '@/services/card/cardService.js';
+import { getCardsByStudy } from '@/services/card/cardService.js';
+import { review } from '@/services/review/reviewService.js';
 import { defineProps } from 'vue';
 
 const props = defineProps({
@@ -18,15 +19,13 @@ const props = defineProps({
 const deckCards = ref([]);
 
 onMounted(async () => {
-  const apiDecks = await getCardsByDeckId(props.deckId);
+  const apiDecks = await getCardsByStudy(props.deckId);
 
   deckCards.value = apiDecks;
 });
 
-function onCardEvaluated({ card, level }) {
-  console.log('Card avaliado:', card, 'Nível:', level)
-  // Aqui você atualiza o agendamento da repetição espaçada
-  // Pode chamar backend, localStorage, etc.
+async function onCardEvaluated({ card, level }) {
+  await review(card.id, level);
 }
 
 function onStudyFinished() {

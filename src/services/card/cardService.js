@@ -10,6 +10,16 @@ export async function getCardsByDeckId(deckId) {
     }
 }
 
+export async function getCardsByStudy(deckId) {
+    try {
+        const { data } = await api.get(`/api/v1/card/${deckId}/study`);
+
+        return data;
+    } catch (error) {
+        // TODO: Gerenciar erro
+    }
+}
+
 export async function getCardById(cardId) {
     try {
         const { data } = await api.get(`/api/v1/card/${cardId}`);

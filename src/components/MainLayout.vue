@@ -1,16 +1,16 @@
 <script setup>
-import { computed } from 'vue'
-// Aqui você vai obter os dados reais do usuário futuramente:
-const user = {
-  name: 'Usuário Exemplo',
-  photo: ''
-}
+import { computed, onMounted, ref } from 'vue';
+import { me } from '@/services/auth/authService.js';
+const user = ref({});
 
-// Computed para decidir qual imagem mostrar
+onMounted(async () => {
+  user.value = await me();
+});
+
 const userPhoto = computed(() => {
-  return user.photo
-    ? user.photo
-    : 'https://www.gravatar.com/avatar/?d=mp' // imagem default
+  return user.value.picture
+    ? user.value.picture
+    : 'https://www.gravatar.com/avatar/?d=mp';
 })
 </script>
 
@@ -33,7 +33,7 @@ const userPhoto = computed(() => {
         >
           Decks
         </router-link>
-        <!-- Perfil do usuário -->
+
         <router-link
           to="/profile"
           class="flex items-center justify-center cursor-pointer"
