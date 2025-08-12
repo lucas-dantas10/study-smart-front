@@ -1,21 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { getCardsByDeckId } from '@/services/card/cardService.js';
 
-const route = useRoute()
-const router = useRouter()
-const deckId = route.params.deckId
+const route = useRoute();
+const router = useRouter();
+const deckId = route.params.deckId;
+const deckName = route.params.deckTitle;
 
-const deckName = ref('Biology 101')
+const cards = ref([]);
 
-const cards = ref([
-  { id: 1, front: 'O que é HTML?', back: 'Linguagem de marcação para a web.' },
-  { id: 2, front: 'O que é CSS?', back: 'Linguagem de estilo.' },
-  { id: 3, front: 'O que é JavaScript?', back: 'Linguagem de programação.' }
-])
-
-onMounted(() => {
-  // Aqui você pode buscar os cards do deck usando deckId
+onMounted(async () => {
+  try {
+    cards.value = await getCardsByDeckId(deckId);
+  } catch (error) {
+    // TODO: Gerenciar erro
+  }
 })
 
 function createCard() {
@@ -71,8 +71,8 @@ function goBack() {
           class="bg-[#f9fafa] dark:bg-gray-800 border border-[#f0f2f5] dark:border-gray-700 rounded-xl p-4 flex flex-col gap-2"
         >
           <div>
-            <p class="text-base font-medium text-[#121416] dark:text-white">{{ card.front }}</p>
-            <p class="text-sm text-[#60758a] dark:text-gray-400">{{ card.back }}</p>
+            <p class="text-base font-medium text-[#121416] dark:text-white">{{ card.front_text }}</p>
+            <p class="text-sm text-[#60758a] dark:text-gray-400">{{ card.back_text }}</p>
           </div>
           <div class="flex gap-2 mt-2">
             <button

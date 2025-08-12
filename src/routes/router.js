@@ -15,7 +15,7 @@ const routes = [
     path: '/auth/callback',
     name: 'AuthCallback',
     component: () => import('@/views/Auth/AuthCallbackPage.vue')
-  },  
+  },
   {
     path: '/',
     component: MainLayout,
@@ -48,7 +48,7 @@ const routes = [
         name: 'CreateDeckFormPage'
       },
       {
-        path: '/deck/:deckId/manage',
+        path: '/deck/:deckId/:deckTitle/manage',
         name: 'ManageDeckPage',
         component: () => import('@/views/Deck/ManageDeckPage.vue'),
         props: true

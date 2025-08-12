@@ -1,30 +1,19 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { getDecks } from '@/services/deck/deckService.js';
 
 const router = useRouter()
 
-// Mock dos decks
-const decks = ref([
-    {
-        id: 1,
-        name: 'Biology 101',
-        cards: 40,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_taw55CRADeJ9XApLg-d0X9D-BzYucoZXmvIeybg0W-t_kvxzvbXZ8GaU5FZ9SmXkKtiUtJ7cCW3vy6e72gIkEqyhJbX8O1H7hfcwybspeFEhlWhv0DDrp8pwRHSsW3LTwJ-E-NSXYDY_4TZYTwH5IcR8_b8O-Mvz-wuC-G0HuiyAQQD1asIXPWGH1dhoz9WVGYXe43wXFsEHLAR5qJVzolsJI-FEoZwaLhqTsm5XnOtjlRApnqGJhCEXS1DTTNHD_IiQa086YUZd'
-    },
-    {
-        id: 2,
-        name: 'World History',
-        cards: 10,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBF7cvuquTwuuu4OSqF9yIBKvQ5hTF4H7B2EtGQOdvTqZ_0qi4aCnpo7yjL8MjcVggl-4nOuV0GgvJRMmQqVRhcln5bW2pfbxmTckh16ADubCTJOFhvMOKPZsuf9xPSqK3T2hJWlZKl3toZPIiXDoF63Aa0NBO9m2qzVo7eqIBHzazP_AKsvhReJIi7QGLD_kHVmeHW4lJtujRYBNmqu4HrKL9Ei82ZQYeqEeOJaOy3F3tkJdAGDvN8fU5rboNb4Sv0t2NG4LAP_sqP'
-    },
-    {
-        id: 3,
-        name: 'Calculus',
-        cards: 15,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCzE3cGQO7SK98QYhHb8b3ndbqI_nVwe_lgqzKmuTpvrT2wYzJhZxH144SpGZ9peDT48FTbpFq-4sJVX0NVdM_XxDZqfesVOvhoACmUvIkIkHj3E_KCydl-iX2ovfzjg49_3BR0kXlcQEqOO5ieNK5VhW8FzkjvoojD99uFCfKgVP9aTEEcSsaRFajS_qjsTkCfzb7499AdSrScc3Mm4Ct1D0G-oeybwOrchj8sa4MGAzllhl4GtVG_eFTNNNiLraft2H4nCjORw1j-'
-    }
-])
+const decks = ref([]);
+
+onMounted(async () => {
+  try {
+    decks.value = await getDecks();
+  } catch (error) {
+    // TODO: Gerenciar erro
+  }
+});
 
 function createDeck() {
     router.push({ name: 'CreateDeckFormPage'});
@@ -40,8 +29,8 @@ function deleteDeck(deckId) {
     }
 }
 
-function manageCards(deckId) {
-    router.push({ name: 'ManageDeckPage', params: { deckId } })
+function manageCards(deckId, deckTitle) {
+    router.push({ name: 'ManageDeckPage', params: { deckId, deckTitle } })
 }
 </script>
 
@@ -62,31 +51,37 @@ function manageCards(deckId) {
                 </button>
             </div>
 
-            <!-- Grid de decks -->
             <div v-if="decks.length" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div v-for="deck in decks" :key="deck.id"
                     class="rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-4 flex flex-col gap-3 hover:shadow transition-shadow">
-                    <div v-if="deck.image" class="w-full aspect-square bg-center bg-cover rounded-md"
-                        :style="{ backgroundImage: `url(${deck.image})` }"></div>
-                    <div v-else
-                        class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6" />
-                        </svg>
+<!--                    <div v-if="deck.image" class="w-full aspect-square bg-center bg-cover rounded-md"-->
+<!--                        :style="{ backgroundImage: `url(${deck.image})` }"></div>-->
+<!--                    <div v-else-->
+<!--                        class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center">-->
+<!--                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500"-->
+<!--                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--                            <path stroke-linecap="round" stroke-linejoin="round"-->
+<!--                                d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />-->
+<!--                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6" />-->
+<!--                        </svg>-->
+<!--                    </div>-->
+                    <div
+                         class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500"
+                           fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6" />
+                      </svg>
                     </div>
-
 
                     <div class="flex flex-col gap-1">
-                        <h2 class="text-base font-semibold">{{ deck.name }}</h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ deck.cards }} cards</p>
+                        <h2 class="text-base font-semibold">{{ deck.title }}</h2>
+<!--                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ deck.cards }} cards</p>-->
                     </div>
 
-                    <!-- Actions -->
                     <div class="flex gap-2 mt-2">
-                        <button @click="manageCards(deck.id)"
+                        <button @click="manageCards(deck.id, deck.title)"
                             class="flex-1 flex items-center justify-center gap-1 text-xs font-medium rounded-md cursor-pointer bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200 px-2 py-1 hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
                                 viewBox="0 0 256 256">
