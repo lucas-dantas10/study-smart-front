@@ -1,30 +1,32 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getCardById, update } from '@/services/card/cardService.js';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const cardId = route.params.cardId;
+const deckId = route.params.deckId;
 
 const front = ref('');
 const back = ref('');
 
 onMounted(async () => {
-  const card = await getCardById(cardId);
+  const card = await store.dispatch('card/fetchCard', cardId);
 
   front.value = card.front_text;
   back.value = card.back_text;
 })
 
-function saveCard() {
+async function saveCard() {
   if (!front.value.trim() || !back.value.trim()) {
     alert('Ambos os campos são obrigatórios.')
     return
   }
 
-  update(cardId, front.value, back.value);
+  await store.dispatch('card/updateCard', { cardId, front: front.value, back: back.value, deckId });
   router.back()
 }
 

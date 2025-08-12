@@ -1,12 +1,16 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router';
-import { me } from '@/services/auth/authService.js';
-const user = ref({});
+import { useStore } from 'vuex';
 
-onMounted(async () => {
-  user.value = await me();
+const router = useRouter();
+const store = useStore();
+
+onMounted(() => {
+  store.dispatch('auth/fetchMe')
 });
+
+const user = computed(() => store.state.auth.user || {});
 
 const userPhoto = computed(() =>
   user.value.picture

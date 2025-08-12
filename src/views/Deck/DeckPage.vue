@@ -1,14 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getDecks, remove } from '@/services/deck/deckService.js';
+import { useStore } from 'vuex';
 
 const router = useRouter()
+const store = useStore()
 
-const decks = ref([]);
+const decks = computed(() => store.state.deck.list)
 
 onMounted(async () => {
-  decks.value = await getDecks();
+  await store.dispatch('deck/fetchDecks')
 });
 
 function createDeck() {
@@ -21,8 +22,7 @@ function editDeck(deckId) {
 
 async function deleteDeck(deckId) {
     if (confirm('Tem certeza que deseja excluir este deck?')) {
-        await remove(deckId);
-        await window.location.reload();
+        await store.dispatch('deck/removeDeck', deckId)
     }
 }
 

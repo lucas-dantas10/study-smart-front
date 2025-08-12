@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '@/store';
 import MainLayout from '@/components/MainLayout.vue';
 import StudyDeckPage from '@/views/StudyDeckPage.vue';
 import HomePage from '@/views/HomePage.vue';
@@ -86,7 +87,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token');
+  const isAuthenticated = store.getters['auth/isAuthenticated'];
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'LoginPage' });
   } else {

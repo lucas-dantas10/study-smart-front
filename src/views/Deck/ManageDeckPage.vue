@@ -1,20 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getCardsByDeckId, remove } from '@/services/card/cardService.js';
+import { useStore } from 'vuex';
 
 const route = useRoute();
 const router = useRouter();
+const store = useStore();
 const deckId = route.params.deckId;
 const deckName = route.params.deckTitle;
 
-const cards = ref([]);
+const cards = computed(() => store.getters['card/cardsByDeck'](deckId));
 
 onMounted(async () => {
   try {
-    cards.value = await getCardsByDeckId(deckId);
+    await store.dispatch('card/fetchCardsByDeck', deckId);
   } catch (error) {
-    // TODO: Gerenciar erro
+    // noop
   }
 })
 
@@ -28,8 +29,7 @@ function editCard(cardId) {
 
 async function deleteCard(cardId) {
   if (confirm('Tem certeza que deseja excluir este card?')) {
-    await remove(cardId);
-    await window.location.reload();
+    await store.dispatch('card/removeCard', { cardId, deckId });
   }
 }
 

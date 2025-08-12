@@ -1,13 +1,15 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const token = route.query.token;
 
 if (token) {
-  localStorage.setItem('token', token);
+  await store.dispatch('auth/loginWithToken', token);
   router.replace({ name: 'HomePage' });
 } else {
   router.replace({ name: 'LoginPage' })

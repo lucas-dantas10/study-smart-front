@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { save } from '@/services/card/cardService.js';
-import { getDeck } from '@/services/deck/deckService.js';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const deckId = route.params.deckId;
 
@@ -18,8 +18,8 @@ async function saveCard() {
     return;
   }
 
-  save(front.value, back.value, deckId);
-  const deck = await getDeck(deckId);
+  await store.dispatch('card/saveCard', { front: front.value, back: back.value, deckId });
+  const deck = await store.dispatch('deck/fetchDeck', deckId);
   const deckTitle = deck.title;
 
   await router.push({name: 'ManageDeckPage', params: {deckId, deckTitle}});

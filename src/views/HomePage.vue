@@ -1,34 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getDecks } from '@/services/deck/deckService.js';
-import { me } from '@/services/auth/authService.js';
+import { useStore } from 'vuex';
 
 const router = useRouter();
-const decks = ref([]);
-const hasDecks = ref(true);
-const user = ref({});
+const store = useStore();
+
+const decks = computed(() => (store.state.deck.list || []).map(d => ({ id: d.id, name: d.title, cards: 0, image: null })));
+const hasDecks = computed(() => decks.value.length > 0);
+const user = computed(() => store.state.auth.user || {});
 
 function goToStudy(deckId) {
   router.push({ name: 'StudyDeckPage', params: { deckId } });
 }
 
 onMounted(async () => {
-  try {
-    const apiDecks = await getDecks();
-    user.value = await me();
-
-    decks.value = await apiDecks.map(d => ({
-      id: d.id,
-      name: d.title,
-      cards: 0,
-      image: null
-    }));
-
-    hasDecks.value = decks.value.length > 0;
-  } catch (error) {
-    hasDecks.value = false;
-  }
+  await Promise.all([
+    store.dispatch('deck/fetchDecks'),
+    store.dispatch('auth/fetchMe')
+  ]);
 });
 
 function goToCreateDeck() {

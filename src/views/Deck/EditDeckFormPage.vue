@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getDeck, update } from '@/services/deck/deckService.js';
+import { useStore } from 'vuex';
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const deckId = route.params.deckId;
 
@@ -13,10 +14,8 @@ const title = ref('')
 // const imageFile = ref(null)
 // const imagePreview = ref('')
 
-// Mock de carregamento inicial (poderia vir da API)
 onMounted(async () => {
-  const deck = await getDeck(deckId);
-
+  const deck = await store.dispatch('deck/fetchDeck', deckId);
   title.value = deck.title;
 })
 
@@ -39,7 +38,7 @@ async function saveDeck() {
     return;
   }
 
-  await update(deckId, title.value);
+  await store.dispatch('deck/updateDeck', { deckId, title: title.value });
 
   await router.push({ name: 'DeckPage' });
 }

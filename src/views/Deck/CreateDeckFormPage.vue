@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { create } from '@/services/deck/deckService.js';
+import { useStore } from 'vuex';
 
 const router = useRouter();
+const store = useStore();
 
 const title = ref('');
 // const description = ref('');
@@ -31,7 +32,7 @@ async function createDeck() {
     return
   }
 
-  await create(title.value);
+  await store.dispatch('deck/createDeck', title.value);
 
   await router.push({name: 'HomePage'})
 }

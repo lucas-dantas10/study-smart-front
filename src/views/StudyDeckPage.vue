@@ -7,25 +7,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import StudyDeck from '@/components/Card/StudyCard.vue';
-import { getCardsByStudy } from '@/services/card/cardService.js';
-import { review } from '@/services/review/reviewService.js';
+import { useStore } from 'vuex';
 import { defineProps } from 'vue';
 
 const props = defineProps({
   deckId: String
 });
-const deckCards = ref([]);
+const store = useStore();
+const deckCards = computed(() => store.state.card.studyCards);
 
 onMounted(async () => {
-  const apiDecks = await getCardsByStudy(props.deckId);
-
-  deckCards.value = apiDecks;
+  await store.dispatch('card/fetchStudyCards', props.deckId);
 });
 
 async function onCardEvaluated({ card, level }) {
-  await review(card.id, level);
+  await store.dispatch('card/reviewCard', { cardId: card.id, level });
 }
 
 function onStudyFinished() {
