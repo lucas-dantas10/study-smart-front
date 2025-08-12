@@ -1,9 +1,13 @@
 import api from "@/axios/api";
 
 export async function getCardsByDeckId(deckId) {
-    const { data } = await api.get(`/api/v1/card/${deckId}/deck`);
+    try {
+        const { data } = await api.get(`/api/v1/card/${deckId}/deck`);
 
-    return data;
+        return data;
+    } catch (error) {
+        // TODO: Gerenciar erro
+    }
 }
 
 export async function getCardById(cardId) {
@@ -48,6 +52,6 @@ export async function remove(cardId) {
     try {
         await api.delete(`/api/v1/card/${cardId}`);
     } catch (error) {
-        console.log(error);
+        // TODO: Gerenciar erro
     }
 }

@@ -1,18 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getDecks } from '@/services/deck/deckService.js';
+import { getDecks, remove } from '@/services/deck/deckService.js';
 
 const router = useRouter()
 
 const decks = ref([]);
 
 onMounted(async () => {
-  try {
-    decks.value = await getDecks();
-  } catch (error) {
-    // TODO: Gerenciar erro
-  }
+  decks.value = await getDecks();
 });
 
 function createDeck() {
@@ -23,9 +19,10 @@ function editDeck(deckId) {
     router.push({ name: 'EditDeckFormPage',  params: { deckId } });
 }
 
-function deleteDeck(deckId) {
+async function deleteDeck(deckId) {
     if (confirm('Tem certeza que deseja excluir este deck?')) {
-        decks.value = decks.value.filter(d => d.id !== deckId)
+        await remove(deckId);
+        await window.location.reload();
     }
 }
 
@@ -82,7 +79,7 @@ function manageCards(deckId, deckTitle) {
 
                     <div class="flex gap-2 mt-2">
                         <button @click="manageCards(deck.id, deck.title)"
-                            class="flex-1 flex items-center justify-center gap-1 text-xs font-medium rounded-md cursor-pointer bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200 px-2 py-1 hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors">
+                            class="flex-1 flex items-center justify-center gap-1 text-xs font-medium rounded-md cursor-pointer bg-indigo-100 dark:bg-indigo-600 text-white dark:text-white px-2 py-1 hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor"
                                 viewBox="0 0 256 256">
                                 <path

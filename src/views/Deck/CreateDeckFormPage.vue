@@ -1,13 +1,14 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { create } from '@/services/deck/deckService.js';
 
-const router = useRouter()
+const router = useRouter();
 
-const title = ref('')
-const description = ref('')
-const imageFile = ref(null)
-const imagePreview = ref(null)
+const title = ref('');
+// const description = ref('');
+// const imageFile = ref(null);
+// const imagePreview = ref(null);
 
 function handleImageChange(event) {
   const file = event.target.files[0]
@@ -24,20 +25,15 @@ function handleImageChange(event) {
   }
 }
 
-function createDeck() {
+async function createDeck() {
   if (!title.value.trim()) {
     alert('O título é obrigatório.')
     return
   }
 
-  // Aqui você enviaria o título, descrição e imageFile ao backend
-  alert(`Deck criado:
-    Título: ${title.value}
-    Descrição: ${description.value}
-    Imagem selecionada: ${imageFile.value ? imageFile.value.name : 'Nenhuma'}
-    `)
+  await create(title.value);
 
-  router.push({ name: 'Home' })
+  await router.push({name: 'HomePage'})
 }
 </script>
 
@@ -65,43 +61,43 @@ function createDeck() {
         </div>
 
         <!-- Descrição -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-description">
-            Descrição <span class="text-sm text-[#6a7681] dark:text-gray-400">(opcional)</span>
-          </label>
-          <textarea
-            id="deck-description"
-            v-model="description"
-            rows="3"
-            placeholder="Descreva o conteúdo ou objetivo do deck..."
-            class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
-          ></textarea>
-        </div>
+<!--        <div class="flex flex-col gap-2">-->
+<!--          <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-description">-->
+<!--            Descrição <span class="text-sm text-[#6a7681] dark:text-gray-400">(opcional)</span>-->
+<!--          </label>-->
+<!--          <textarea-->
+<!--            id="deck-description"-->
+<!--            v-model="description"-->
+<!--            rows="3"-->
+<!--            placeholder="Descreva o conteúdo ou objetivo do deck..."-->
+<!--            class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"-->
+<!--          ></textarea>-->
+<!--        </div>-->
 
         <!-- Upload de Imagem -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-image">
-            Imagem do Deck <span class="text-sm text-[#6a7681] dark:text-gray-400">(opcional)</span>
-          </label>
-          <input
-            id="deck-image"
-            type="file"
-            accept="image/*"
-            @change="handleImageChange"
-            class="block w-full text-sm text-[#6a7681] dark:text-gray-400
-                   file:mr-4 file:py-2 file:px-4
-                   file:rounded-full file:border-0
-                   file:text-sm file:font-semibold
-                   file:bg-[#f1f2f4] file:text-[#121416]
-                   hover:file:bg-[#e1e2e4]
-                   dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600"
-          />
+<!--        <div class="flex flex-col gap-2">-->
+<!--          <label class="text-sm font-medium text-[#121416] dark:text-white" for="deck-image">-->
+<!--            Imagem do Deck <span class="text-sm text-[#6a7681] dark:text-gray-400">(opcional)</span>-->
+<!--          </label>-->
+<!--          <input-->
+<!--            id="deck-image"-->
+<!--            type="file"-->
+<!--            accept="image/*"-->
+<!--            @change="handleImageChange"-->
+<!--            class="block w-full text-sm text-[#6a7681] dark:text-gray-400-->
+<!--                   file:mr-4 file:py-2 file:px-4-->
+<!--                   file:rounded-full file:border-0-->
+<!--                   file:text-sm file:font-semibold-->
+<!--                   file:bg-[#f1f2f4] file:text-[#121416]-->
+<!--                   hover:file:bg-[#e1e2e4]-->
+<!--                   dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600"-->
+<!--          />-->
 
-          <!-- Preview -->
-          <div v-if="imagePreview" class="mt-2">
-            <img :src="imagePreview" alt="Pré-visualização da imagem" class="rounded-xl max-h-48 object-contain border border-[#f0f2f5] dark:border-gray-700"/>
-          </div>
-        </div>
+<!--          &lt;!&ndash; Preview &ndash;&gt;-->
+<!--          <div v-if="imagePreview" class="mt-2">-->
+<!--            <img :src="imagePreview" alt="Pré-visualização da imagem" class="rounded-xl max-h-48 object-contain border border-[#f0f2f5] dark:border-gray-700"/>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <!-- Ações -->
         <div class="flex gap-3">
