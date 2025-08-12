@@ -1,26 +1,28 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { save } from '@/services/card/cardService.js';
+import { getDeck } from '@/services/deck/deckService.js';
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const deckId = route.params.deckId
+const deckId = route.params.deckId;
 
-const front = ref('')
-const back = ref('')
+const front = ref('');
+const back = ref('');
 
-function saveCard() {
+async function saveCard() {
   if (!front.value.trim() || !back.value.trim()) {
-    alert('Por favor, preencha frente e verso do card.')
-    return
+    alert('Por favor, preencha frente e verso do card.');
+    return;
   }
 
-  // Aqui você pode enviar ao backend
-  alert(`Card criado:\nFrente: ${front.value}\nVerso: ${back.value}`)
+  save(front.value, back.value, deckId);
+  const deck = await getDeck(deckId);
+  const deckTitle = deck.title;
 
-  // Redirecionar para a lista de cards
-  router.push({ name: 'ManageCards', params: { deckId } })
+  await router.push({name: 'ManageDeckPage', params: {deckId, deckTitle}});
 }
 </script>
 

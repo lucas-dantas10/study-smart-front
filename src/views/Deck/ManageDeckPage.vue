@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getCardsByDeckId } from '@/services/card/cardService.js';
+import { getCardsByDeckId, remove } from '@/services/card/cardService.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -26,9 +26,10 @@ function editCard(cardId) {
   router.push({ name: 'EditCardFormPage', params: { deckId, cardId } })
 }
 
-function deleteCard(cardId) {
+async function deleteCard(cardId) {
   if (confirm('Tem certeza que deseja excluir este card?')) {
-    cards.value = cards.value.filter(c => c.id !== cardId)
+    await remove(cardId);
+    await window.location.reload();
   }
 }
 

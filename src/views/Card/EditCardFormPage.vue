@@ -1,22 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { getCardById, update } from '@/services/card/cardService.js';
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-// Pegamos o cardId da rota
-const cardId = route.params.cardId
+const cardId = route.params.cardId;
 
-const front = ref('')
-const back = ref('')
+const front = ref('');
+const back = ref('');
 
-// Simula carregamento do card
-onMounted(() => {
-  // Aqui você carregaria o card pelo ID
-  // Substitua este mock pelo fetch real
-  front.value = 'O que é HTML?'
-  back.value = 'Linguagem de marcação para a web.'
+onMounted(async () => {
+  const card = await getCardById(cardId);
+
+  front.value = card.front_text;
+  back.value = card.back_text;
 })
 
 function saveCard() {
@@ -24,8 +23,8 @@ function saveCard() {
     alert('Ambos os campos são obrigatórios.')
     return
   }
-  // Aqui faria a requisição ao backend
-  alert(`Card atualizado:\nFrente: ${front.value}\nVerso: ${back.value}`)
+
+  update(cardId, front.value, back.value);
   router.back()
 }
 
