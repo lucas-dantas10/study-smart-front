@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import LoadingOverlay from '@/components/LoadingOverlay.vue'
+import ErrorModal from '@/components/ErrorModal.vue'
 
 const store = useStore();
 
@@ -11,6 +12,13 @@ onMounted(() => {
 
 const user = computed(() => store.state.auth.user || {});
 const isLoading = computed(() => store.state.auth.loading || store.state.deck?.loading || store.state.card?.loading);
+const errorState = computed(() => store.state.auth.error || store.state.deck?.error || store.state.card?.error);
+
+function clearErrors() {
+  if (store.state.auth.error) store.commit('auth/setError', null);
+  if (store.state.deck?.error) store.commit('deck/setError', null);
+  if (store.state.card?.error) store.commit('card/setError', null);
+}
 
 const userPhoto = computed(() => {
   return user.value.picture
@@ -56,5 +64,12 @@ const userPhoto = computed(() => {
       <router-view />
     </main>
     <LoadingOverlay :show="!!isLoading" message="Carregando..." />
+    <ErrorModal
+      :show="!!errorState"
+      title="Ocorreu um erro"
+      :message="'Não foi possível completar a operação.'"
+      :details="String(errorState || '')"
+      @close="clearErrors"
+    />
   </div>
 </template>

@@ -20,7 +20,18 @@ export default {
 			state.loading = value
 		},
 		setError(state, error) {
-			state.error = error
+			if (error && error.response && error.response.data) {
+				const data = error.response.data
+				if (data && typeof data === 'object' && 'error' in data) {
+					state.error = data.error
+				} else {
+					state.error = typeof data === 'string' ? data : (data.message || JSON.stringify(data))
+				}
+			} else if (error && error.message) {
+				state.error = error.message
+			} else {
+				state.error = error
+			}
 		},
 		setCardsForDeck(state, { deckId, cards }) {
 			state.byDeck = { ...state.byDeck, [deckId]: cards }

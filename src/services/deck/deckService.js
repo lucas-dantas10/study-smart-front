@@ -6,7 +6,7 @@ export async function getDecks() {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -16,7 +16,7 @@ export async function getDeck(deckId) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -28,7 +28,7 @@ export async function create(title) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -40,7 +40,7 @@ export async function update(deckId, title) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -48,6 +48,6 @@ export async function remove(deckId) {
     try {
         await api.delete(`/api/v1/deck/${deckId}`);
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }

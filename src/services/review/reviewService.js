@@ -6,6 +6,6 @@ export async function review(cardId, quality) {
             quality: quality
         });
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }

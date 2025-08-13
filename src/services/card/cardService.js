@@ -6,7 +6,7 @@ export async function getCardsByDeckId(deckId) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -16,7 +16,7 @@ export async function getCardsByStudy(deckId) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -26,7 +26,7 @@ export async function getCardById(cardId) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -40,7 +40,7 @@ export async function save(front, back, deckId) {
 
         return data;
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
@@ -53,7 +53,7 @@ export async function update(cardId, front, back) {
 
         return data;
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
 
@@ -62,6 +62,6 @@ export async function remove(cardId) {
     try {
         await api.delete(`/api/v1/card/${cardId}`);
     } catch (error) {
-        // TODO: Gerenciar erro
+        throw error;
     }
 }
