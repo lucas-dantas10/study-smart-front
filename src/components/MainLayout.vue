@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import LoadingOverlay from '@/components/LoadingOverlay.vue'
 
 const store = useStore();
 
@@ -9,6 +10,7 @@ onMounted(() => {
 });
 
 const user = computed(() => store.state.auth.user || {});
+const isLoading = computed(() => store.state.auth.loading || store.state.deck?.loading || store.state.card?.loading);
 
 const userPhoto = computed(() => {
   return user.value.picture
@@ -53,5 +55,6 @@ const userPhoto = computed(() => {
     <main class="w-full flex flex-col flex-1 text-gray-900 dark:text-white">
       <router-view />
     </main>
+    <LoadingOverlay :show="!!isLoading" message="Carregando..." />
   </div>
 </template>

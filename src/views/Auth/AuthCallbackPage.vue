@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import LoadingOverlay from '@/components/LoadingOverlay.vue'
 
 const router = useRouter();
 const route = useRoute();
@@ -23,6 +24,6 @@ try {
 
 <template>
   <div class="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-    <p>Processando login...</p>
+    <LoadingOverlay :show="true" message="Entrando com Google..." />
   </div>
 </template>
