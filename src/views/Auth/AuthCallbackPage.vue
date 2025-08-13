@@ -8,10 +8,15 @@ const store = useStore();
 
 const token = route.query.token;
 
-if (token) {
-  await store.dispatch('auth/loginWithToken', token);
-  router.replace({ name: 'HomePage' });
-} else {
+try {
+  if (token) {
+    store.commit('auth/setToken', token);
+    store.dispatch('auth/fetchMe').catch(() => {});
+    router.replace({ name: 'HomePage' });
+  } else {
+    router.replace({ name: 'LoginPage' })
+  }
+} catch (e) {
   router.replace({ name: 'LoginPage' })
 }
 </script>
