@@ -12,6 +12,8 @@ const deckId = route.params.deckId;
 
 const front = ref('');
 const back = ref('');
+const frontError = ref('');
+const backError = ref('');
 
 onMounted(async () => {
   const card = await store.dispatch('card/fetchCard', cardId);
@@ -21,9 +23,24 @@ onMounted(async () => {
 })
 
 async function saveCard() {
-  if (!front.value.trim() || !back.value.trim()) {
-    alert('Ambos os campos são obrigatórios.')
-    return
+  let hasError = false;
+
+  if (!front.value.trim()) {
+    frontError.value = 'O campo da frente é obrigatório.';
+    hasError = true;
+  } else {
+    frontError.value = '';
+  }
+
+  if (!back.value.trim()) {
+    backError.value = 'O campo do verso é obrigatório.';
+    hasError = true;
+  } else {
+    backError.value = '';
+  }
+
+  if (hasError) {
+    return;
   }
 
   await store.dispatch('card/updateCard', { cardId, front: front.value, back: back.value, deckId });
@@ -60,17 +77,22 @@ function goBack() {
             type="text"
             placeholder="Conteúdo da frente do card"
             class="w-full rounded-lg border-none bg-[#f1f2f4] dark:bg-gray-800 h-11 px-4 text-base placeholder:text-[#6a7681] dark:placeholder:text-gray-400 focus:outline-0"
+            :class="{'border-red-500': frontError}"
           />
+          <p v-if="frontError" class="text-red-500 text-sm mt-1">{{ frontError }}</p>
         </div>
 
         <div class="flex flex-col gap-2">
           <label class="text-sm font-medium">Verso <span class="text-red-500">*</span></label>
           <textarea
             v-model="back"
+            @input="backError = ''"
             rows="4"
             placeholder="Conteúdo do verso do card"
             class="w-full rounded-lg border-none bg-[#f1f2f4] dark:bg-gray-800 px-4 py-3 text-base placeholder:text-[#6a7681] dark:placeholder:text-gray-400 focus:outline-0 resize-none"
+            :class="{'border-red-500': backError}"
           ></textarea>
+          <p v-if="backError" class="text-red-500 text-sm mt-1">{{ backError }}</p>
         </div>
 
         <div class="flex gap-3 mt-4">

@@ -11,10 +11,27 @@ const deckId = route.params.deckId;
 
 const front = ref('');
 const back = ref('');
+const frontError = ref('');
+const backError = ref('');
 
 async function saveCard() {
-  if (!front.value.trim() || !back.value.trim()) {
-    alert('Por favor, preencha frente e verso do card.');
+  let hasError = false;
+
+  if (!front.value.trim()) {
+    frontError.value = 'O campo da frente é obrigatório.';
+    hasError = true;
+  } else {
+    frontError.value = '';
+  }
+
+  if (!back.value.trim()) {
+    backError.value = 'O campo do verso é obrigatório.';
+    hasError = true;
+  } else {
+    backError.value = '';
+  }
+
+  if (hasError) {
     return;
   }
 
@@ -42,10 +59,13 @@ async function saveCard() {
           <textarea
             id="card-front"
             v-model="front"
+            @input="frontError = ''"
             rows="3"
             placeholder="Digite o conteúdo da frente..."
             class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
+            :class="{'border-red-500': frontError}"
           ></textarea>
+          <p v-if="frontError" class="text-red-500 text-sm mt-1">{{ frontError }}</p>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -56,10 +76,13 @@ async function saveCard() {
           <textarea
             id="card-back"
             v-model="back"
+            @input="backError = ''"
             rows="3"
             placeholder="Digite o conteúdo do verso..."
             class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
+            :class="{'border-red-500': backError}"
           ></textarea>
+          <p v-if="backError" class="text-red-500 text-sm mt-1">{{ backError }}</p>
         </div>
 
         <div class="flex gap-3">

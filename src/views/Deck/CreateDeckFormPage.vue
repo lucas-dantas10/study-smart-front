@@ -7,6 +7,7 @@ const router = useRouter();
 const store = useStore();
 
 const title = ref('');
+const titleError = ref('');
 // const description = ref('');
 // const imageFile = ref(null);
 // const imagePreview = ref(null);
@@ -28,9 +29,10 @@ function handleImageChange(event) {
 
 async function createDeck() {
   if (!title.value.trim()) {
-    alert('O título é obrigatório.')
-    return
+    titleError.value = 'O título é obrigatório.';
+    return;
   }
+  titleError.value = ''; // Clear error if title is valid
 
   await store.dispatch('deck/createDeck', title.value);
 
@@ -55,10 +57,13 @@ async function createDeck() {
           <input
             id="deck-title"
             v-model="title"
+            @input="titleError = ''"
             type="text"
             placeholder="Ex: Biologia, História, Inglês..."
             class="form-input w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 h-12 px-4 text-base font-normal focus:outline-0 focus:ring-0"
+            :class="{'border-red-500': titleError}"
           />
+          <p v-if="titleError" class="text-red-500 text-sm mt-1">{{ titleError }}</p>
         </div>
 
         <!-- Descrição -->
@@ -104,14 +109,14 @@ async function createDeck() {
         <div class="flex gap-3">
           <button
             @click="createDeck"
-            class="flex items-center justify-center overflow-hidden rounded-full h-10 cursor-pointer px-5 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-medium hover:bg-[#e1e2e4] dark:hover:bg-gray-600 transition"
+            class="flex items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-medium hover:bg-[#e1e2e4] dark:hover:bg-gray-600 transition"
           >
-            Criar Deck
+            Salvar Card
           </button>
 
           <button
             @click="router.back()"
-            class="flex items-center justify-center overflow-hidden rounded-full h-10 cursor-pointer px-5 bg-transparent border border-[#f1f2f4] dark:border-gray-700 text-sm text-[#121416] dark:text-white hover:bg-[#f1f2f4] dark:hover:bg-gray-700 transition"
+            class="flex items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-transparent border border-[#f1f2f4] dark:border-gray-700 text-sm text-[#121416] dark:text-white hover:bg-[#f1f2f4] dark:hover:bg-gray-700 transition"
           >
             Cancelar
           </button>

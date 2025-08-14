@@ -10,6 +10,7 @@ const store = useStore();
 const deckId = route.params.deckId;
 
 const title = ref('')
+const titleError = ref('')
 // const description = ref('')
 // const imageFile = ref(null)
 // const imagePreview = ref('')
@@ -34,9 +35,10 @@ onMounted(async () => {
 
 async function saveDeck() {
   if (!title.value.trim()) {
-    alert('O título é obrigatório.');
+    titleError.value = 'O título é obrigatório.';
     return;
   }
+  titleError.value = ''; // Clear error if title is valid
 
   await store.dispatch('deck/updateDeck', { deckId, title: title.value });
 
@@ -66,10 +68,13 @@ async function saveDeck() {
           <input
             id="title"
             v-model="title"
+            @input="titleError = ''"
             type="text"
             class="w-full rounded-lg border-none bg-gray-100 dark:bg-gray-800 h-11 px-4 text-base placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-0"
+            :class="{'border-red-500': titleError}"
             placeholder="Título do deck"
           />
+          <p v-if="titleError" class="text-red-500 text-sm mt-1">{{ titleError }}</p>
         </div>
 
 <!--        <div class="flex flex-col gap-2">-->

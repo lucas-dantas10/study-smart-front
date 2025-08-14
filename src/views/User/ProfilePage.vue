@@ -13,13 +13,17 @@ onMounted(() => {
   store.dispatch('auth/fetchMe')
 });
 
-const user = computed(() => store.state.auth.user || {});
+const user = computed(() => {
+  const currentUser = store.state.auth.user || {};
+  return currentUser;
+});
 
-const userPhoto = computed(() =>
-  user.value.picture
+const userPhoto = computed(() => {
+  const photoUrl = user.value.picture
     ? user.value.picture
-    : 'https://www.gravatar.com/avatar/?d=mp'
-)
+    : 'https://www.gravatar.com/avatar/?d=mp';
+  return photoUrl;
+});
 
 function editProfile() {
   router.push({ name: 'EditProfile' })
