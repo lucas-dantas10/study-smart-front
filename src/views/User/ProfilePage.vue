@@ -1,10 +1,13 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import ConfirmationModal from '@/components/ConfirmationModal.vue'
 
 const router = useRouter();
 const store = useStore();
+
+const showLogoutConfirmModal = ref(false);
 
 onMounted(() => {
   store.dispatch('auth/fetchMe')
@@ -20,6 +23,25 @@ const userPhoto = computed(() =>
 
 function editProfile() {
   router.push({ name: 'EditProfile' })
+}
+
+function logout() {
+  store.dispatch('auth/logout');
+  router.push({ name: 'LoginPage' });
+}
+
+function showConfirmLogout() {
+  showLogoutConfirmModal.value = true;
+}
+
+function cancelLogout() {
+  showLogoutConfirmModal.value = false;
+}
+
+function confirmLogout() {
+  store.dispatch('auth/logout');
+  router.push({ name: 'LoginPage' });
+  showLogoutConfirmModal.value = false;
 }
 </script>
 
@@ -60,6 +82,27 @@ function editProfile() {
         </svg>
         Editar Perfil
       </button> -->
+
+      <button
+        @click="showConfirmLogout"
+        class="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-5 py-2 transition-colors shadow"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 256 256">
+          <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-88a8,8,0,0,1-8,8H136v24a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h24V96a8,8,0,0,1,16,0v24h24A8,8,0,0,1,168,128Z" transform="rotate(225 128 128)"/>
+          <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-88a8,8,0,0,1-8,8H136v24a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h24V96a8,8,0,0,1,16,0v24h24A8,8,0,0,1,168,128Z" transform="rotate(225 128 128)"/>
+        </svg>
+        Sair
+      </button>
     </div>
   </div>
+
+  <ConfirmationModal
+    :show="showLogoutConfirmModal"
+    title="Confirmação de Saída"
+    message="Deseja realmente sair da sua conta?"
+    confirmText="Sair"
+    cancelText="Cancelar"
+    @confirm="confirmLogout"
+    @cancel="cancelLogout"
+  />
 </template>
