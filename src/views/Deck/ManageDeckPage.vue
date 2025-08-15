@@ -13,9 +13,8 @@ const cards = computed(() => store.getters['card/cardsByDeck'](deckId));
 
 onMounted(async () => {
   try {
-    await store.dispatch('card/fetchCardsByDeck', deckId);
+    await store.dispatch('card/fetchCardsByDeck', { deckId, forceRefresh: false });
   } catch (error) {
-    // noop
   }
 })
 

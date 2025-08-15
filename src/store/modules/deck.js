@@ -41,8 +41,8 @@ export default {
 		}
 	},
 	actions: {
-		async fetchDecks({ commit, state }) {
-			if (state.list.length > 0) {
+		async fetchDecks({ commit, state }, forceRefresh = false) {
+			if (!forceRefresh && state.list.length > 0) {
 				return state.list;
 			}
 
@@ -82,7 +82,7 @@ export default {
 			commit('setError', null)
 			try {
 				await create(title)
-				return dispatch('fetchDecks')
+				return dispatch('fetchDecks', true) // Force refresh
 			} catch (error) {
 				commit('setError', error)
 				throw error
@@ -95,7 +95,7 @@ export default {
 			commit('setError', null)
 			try {
 				await update(deckId, title)
-				return dispatch('fetchDecks')
+				return dispatch('fetchDecks', true) // Force refresh
 			} catch (error) {
 				commit('setError', error)
 				throw error
@@ -108,10 +108,12 @@ export default {
 			commit('setError', null);
 			try {
 				await remove(deckId);
-				commit('setError', error)
-				throw error
+				return dispatch('fetchDecks', true); // Force refresh
+			} catch (error) {
+				commit('setError', error);
+				throw error;
 			} finally {
-				commit('setLoading', false)
+				commit('setLoading', false);
 			}
 		}
 	}

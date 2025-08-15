@@ -44,8 +44,8 @@ export default {
 		}
 	},
 	actions: {
-		async fetchCardsByDeck({ commit, state }, deckId) {
-			if (state.byDeck[deckId] && state.byDeck[deckId].length > 0) {
+		async fetchCardsByDeck({ commit, state }, { deckId, forceRefresh = false }) {
+			if (!forceRefresh && state.byDeck[deckId] && state.byDeck[deckId].length > 0) {
 				return state.byDeck[deckId];
 			}
 
@@ -99,7 +99,7 @@ export default {
 			commit('setError', null)
 			try {
 				await save(front, back, deckId)
-				return dispatch('fetchCardsByDeck', deckId)
+				return dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
 			} catch (error) {
 				commit('setError', error)
 				throw error
@@ -113,7 +113,7 @@ export default {
 			try {
 				await update(cardId, front, back)
 				if (deckId) {
-					return dispatch('fetchCardsByDeck', deckId)
+					return dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
 				}
 			} catch (error) {
 				commit('setError', error)
@@ -128,7 +128,7 @@ export default {
 			try {
 				await remove(cardId)
 				if (deckId) {
-					return dispatch('fetchCardsByDeck', deckId)
+					return dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
 				}
 			} catch (error) {
 				commit('setError', error)
