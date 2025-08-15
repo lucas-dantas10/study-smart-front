@@ -44,7 +44,11 @@ export default {
 		}
 	},
 	actions: {
-		async fetchCardsByDeck({ commit }, deckId) {
+		async fetchCardsByDeck({ commit, state }, deckId) {
+			if (state.byDeck[deckId] && state.byDeck[deckId].length > 0) {
+				return state.byDeck[deckId];
+			}
+
 			commit('setLoading', true)
 			commit('setError', null)
 			try {
@@ -72,7 +76,12 @@ export default {
 				commit('setLoading', false)
 			}
 		},
-		async fetchCard({ commit }, cardId) {
+		async fetchCard({ commit, state }, cardId) {
+			if (state.currentCard && state.currentCard.id === cardId) {
+				console.log(`Card ${cardId} already in store, returning cached card.`);
+				return state.currentCard;
+			}
+
 			commit('setLoading', true)
 			commit('setError', null)
 			try {

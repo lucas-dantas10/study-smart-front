@@ -41,7 +41,11 @@ export default {
 		}
 	},
 	actions: {
-		async fetchDecks({ commit }) {
+		async fetchDecks({ commit, state }) {
+			if (state.list.length > 0) {
+				return state.list;
+			}
+
 			commit('setLoading', true)
 			commit('setError', null)
 			try {
@@ -55,7 +59,11 @@ export default {
 				commit('setLoading', false)
 			}
 		},
-		async fetchDeck({ commit }, deckId) {
+		async fetchDeck({ commit, state }, deckId) {
+			if (state.current && state.current.id === deckId) {
+				return state.current;
+			}
+
 			commit('setLoading', true)
 			commit('setError', null)
 			try {

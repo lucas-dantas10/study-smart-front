@@ -44,7 +44,11 @@ export default {
 		}
 	},
 	actions: {
-		async fetchMe({ commit }) {
+		async fetchMe({ commit, state }) {
+			if (state.user) {
+				return state.user;
+			}
+
 			commit('setLoading', true)
 			commit('setError', null)
 			try {
