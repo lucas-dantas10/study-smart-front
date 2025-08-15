@@ -78,7 +78,6 @@ export default {
 		},
 		async fetchCard({ commit, state }, cardId) {
 			if (state.currentCard && state.currentCard.id === cardId) {
-				console.log(`Card ${cardId} already in store, returning cached card.`);
 				return state.currentCard;
 			}
 

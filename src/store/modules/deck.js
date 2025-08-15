@@ -103,13 +103,11 @@ export default {
 				commit('setLoading', false)
 			}
 		},
-		async removeDeck({ commit }, deckId) {
-			commit('setLoading', true)
-			commit('setError', null)
+		async removeDeck({ dispatch, commit }, deckId) {
+			commit('setLoading', true);
+			commit('setError', null);
 			try {
-				await remove(deckId)
-				commit('removeDeckFromList', deckId)
-			} catch (error) {
+				await remove(deckId);
 				commit('setError', error)
 				throw error
 			} finally {
