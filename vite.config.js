@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: "http://localhost:8080",
+        target: process.env.VITE_STUDY_SMART_API_BASE_URL,
         changeOrigin: true,
         secure: false,
       },

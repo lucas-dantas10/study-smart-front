@@ -1,10 +1,11 @@
 <script setup>
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
+const router = useRouter();
+const baseUrl = import.meta.env.VITE_STUDY_SMART_API_BASE_URL;
 
 function loginWithGoogle() {
-  window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  window.location.href = `${baseUrl}/oauth2/authorization/google`;
 }
 </script>
 
