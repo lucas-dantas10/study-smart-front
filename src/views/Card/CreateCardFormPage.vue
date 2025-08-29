@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import {ref} from 'vue';
+import {useRouter, useRoute} from 'vue-router';
+import {useStore} from 'vuex';
 
 const router = useRouter();
 const route = useRoute();
@@ -31,11 +31,9 @@ async function saveCard() {
     backError.value = '';
   }
 
-  if (hasError) {
-    return;
-  }
+  if (hasError) return;
 
-  await store.dispatch('card/saveCard', { front: front.value, back: back.value, deckId });
+  await store.dispatch('card/saveCard', {front: front.value, back: back.value, deckId});
   const deck = await store.dispatch('deck/fetchDeck', deckId);
   const deckTitle = deck.title;
 
@@ -44,8 +42,9 @@ async function saveCard() {
 </script>
 
 <template>
-  <div class="px-40 flex flex-1 justify-center py-5 bg-white dark:bg-gray-900 text-[#121416] dark:text-white">
-    <div class="layout-content-container flex flex-col max-w-[640px] w-full">
+  <div
+      class="flex flex-1 justify-center py-5 bg-white dark:bg-gray-900 text-[#121416] dark:text-white px-4 sm:px-6 md:px-10 lg:px-40">
+    <div class="flex flex-col w-full max-w-[640px]">
       <div class="flex flex-wrap justify-between gap-3 p-4">
         <p class="tracking-light text-[32px] font-bold leading-tight">Criar Novo Card</p>
       </div>
@@ -57,13 +56,13 @@ async function saveCard() {
             <span class="text-red-500">*</span>
           </label>
           <textarea
-            id="card-front"
-            v-model="front"
-            @input="frontError = ''"
-            rows="3"
-            placeholder="Digite o conteúdo da frente..."
-            class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
-            :class="{'border-red-500': frontError}"
+              id="card-front"
+              v-model="front"
+              @input="frontError = ''"
+              rows="3"
+              placeholder="Digite o conteúdo da frente..."
+              class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
+              :class="{'border-red-500': frontError}"
           ></textarea>
           <p v-if="frontError" class="text-red-500 text-sm mt-1">{{ frontError }}</p>
         </div>
@@ -74,28 +73,28 @@ async function saveCard() {
             <span class="text-red-500">*</span>
           </label>
           <textarea
-            id="card-back"
-            v-model="back"
-            @input="backError = ''"
-            rows="3"
-            placeholder="Digite o conteúdo do verso..."
-            class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
-            :class="{'border-red-500': backError}"
+              id="card-back"
+              v-model="back"
+              @input="backError = ''"
+              rows="3"
+              placeholder="Digite o conteúdo do verso..."
+              class="form-textarea w-full rounded-xl border-none bg-[#f1f2f4] dark:bg-gray-800 text-[#121416] dark:text-white placeholder:text-[#6a7681] dark:placeholder:text-gray-400 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-0"
+              :class="{'border-red-500': backError}"
           ></textarea>
           <p v-if="backError" class="text-red-500 text-sm mt-1">{{ backError }}</p>
         </div>
 
-        <div class="flex gap-3">
+        <div class="flex flex-col sm:flex-row gap-3">
           <button
-            @click="saveCard"
-            class="flex items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-medium hover:bg-[#e1e2e4] dark:hover:bg-gray-600 transition"
+              @click="saveCard"
+              class="flex items-center justify-center cursor-pointer rounded-full h-10 px-5 bg-[#f1f2f4] dark:bg-indigo-600 text-[#121416] dark:text-white text-sm font-medium hover:bg-[#e1e2e4] dark:hover:bg-indigo-700 transition w-full sm:w-auto"
           >
             Salvar Card
           </button>
 
           <button
-            @click="router.back()"
-            class="flex items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-transparent border border-[#f1f2f4] dark:border-gray-700 text-sm text-[#121416] dark:text-white hover:bg-[#f1f2f4] dark:hover:bg-gray-700 transition"
+              @click="router.back()"
+              class="flex items-center justify-center cursor-pointer rounded-full h-10 px-5 bg-transparent border border-[#f1f2f4] dark:border-gray-700 text-sm text-[#121416] dark:text-white hover:bg-[#f1f2f4] dark:hover:bg-gray-700 transition w-full sm:w-auto"
           >
             Cancelar
           </button>
