@@ -35,7 +35,7 @@ async function createDeck() {
   titleError.value = '';
   await store.dispatch('deck/createDeck', title.value);
 
-  await router.push({name: 'HomePage'})
+  await router.push({name: 'DeckPage'})
 }
 </script>
 

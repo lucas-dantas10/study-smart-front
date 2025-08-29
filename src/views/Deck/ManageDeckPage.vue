@@ -33,7 +33,7 @@ async function deleteCard(cardId) {
 }
 
 function goBack() {
-  router.back()
+  router.push({name: 'DeckPage'});
 }
 </script>
 
