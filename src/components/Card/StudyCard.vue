@@ -1,6 +1,9 @@
 <script setup>
-import { ref, watch, computed, defineEmits, defineProps } from 'vue'
-import confetti from 'canvas-confetti'
+import { ref, watch, computed, defineEmits, defineProps } from 'vue';
+import confetti from 'canvas-confetti';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const props = defineProps({
   cards: {
@@ -44,10 +47,8 @@ function evaluateCard(level) {
   }
 }
 
-function restart() {
-  currentIndex.value = 0
-  showAnswer.value = false
-  finished.value = false
+function backHome() {
+  router.push({ name: 'HomePage' });
 }
 
 function launchConfetti() {
@@ -97,10 +98,10 @@ function launchConfetti() {
               <h1 class="text-4xl font-extrabold mb-4">🎉 Parabéns! 🎉</h1>
               <p class="text-lg mb-8">Você completou todos os cards deste deck.</p>
               <button
-                @click="restart"
+                @click="backHome"
                 class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 text-white text-lg px-10 py-4 rounded-xl cursor-pointer font-semibold transition-all duration-200 shadow-lg focus:outline-none max-w-[300px] w-full mx-auto"
               >
-                Estudar novamente
+                Voltar para o início
               </button>
             </template>
 
