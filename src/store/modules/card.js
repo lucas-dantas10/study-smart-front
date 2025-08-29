@@ -138,7 +138,6 @@ export default {
 			}
 		},
 		async reviewCard({ commit }, { cardId, level }) {
-			commit('setLoading', true)
 			commit('setError', null)
 			try {
 				await review(cardId, level)
@@ -146,7 +145,6 @@ export default {
 				commit('setError', error)
 				throw error
 			} finally {
-				commit('setLoading', false)
 			}
 		}
 	}
