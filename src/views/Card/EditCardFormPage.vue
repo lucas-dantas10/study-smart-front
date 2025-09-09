@@ -98,7 +98,7 @@ function goBack() {
         <div class="flex gap-3 mt-4">
           <button
             @click="saveCard"
-            class="flex items-center justify-center gap-2 rounded-full bg-[#f1f2f4] dark:bg-gray-700 hover:bg-[#e1e2e4] dark:hover:bg-gray-600 text-[#121416] dark:text-white text-sm font-medium px-5 h-10 cursor-pointer transition"
+            class="flex items-center justify-center gap-2 rounded-full bg-[#f1f2f4] dark:bg-indigo-600 hover:bg-[#e1e2e4] dark:hover:bg-indigo-700 text-[#121416] dark:text-white text-sm font-medium px-5 h-10 cursor-pointer transition"
           >
             Salvar Alterações
           </button>

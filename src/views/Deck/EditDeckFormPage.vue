@@ -113,13 +113,13 @@ async function saveDeck() {
         <div class="flex gap-3 mt-4">
           <button
             @click="saveDeck"
-            class="flex items-center justify-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2 shadow transition"
+            class="flex items-center justify-center cursor-pointer gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2 shadow transition"
           >
             Salvar Alterações
           </button>
           <button
             @click="router.back()"
-            class="flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-medium px-5 py-2 transition"
+            class="flex items-center justify-center cursor-pointer gap-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-medium px-5 py-2 transition"
           >
             Cancelar
           </button>

@@ -82,7 +82,7 @@ export default {
 			commit('setError', null)
 			try {
 				await create(title)
-				return dispatch('fetchDecks', true) // Force refresh
+				return dispatch('fetchDecks', true)
 			} catch (error) {
 				commit('setError', error)
 				throw error

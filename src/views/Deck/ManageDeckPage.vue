@@ -33,7 +33,7 @@ async function deleteCard(cardId) {
 }
 
 function goBack() {
-  router.back()
+  router.push({name: 'DeckPage'});
 }
 </script>
 
@@ -58,7 +58,7 @@ function goBack() {
         </div>
         <button
           @click="createCard"
-          class="flex items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-medium cursor-pointer"
+          class="flex items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#f1f2f4] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-[#121416] dark:text-white text-sm font-medium cursor-pointer"
         >
           Novo Card
         </button>

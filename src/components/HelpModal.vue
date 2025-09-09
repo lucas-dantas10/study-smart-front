@@ -3,7 +3,7 @@
       <div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-xl shadow-lg w-11/12 max-w-2xl p-6 relative">
         <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-3 mb-4">
           <h2 class="text-xl font-bold">Como o Study Smart funciona?</h2>
-          <button @click="close" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl leading-none">
+          <button @click="close" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl leading-none cursor-pointer">
             ×
           </button>
         </div>
