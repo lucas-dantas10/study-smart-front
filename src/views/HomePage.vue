@@ -27,7 +27,7 @@ function goToCreateDeck() {
 </script>
 
 <template>
-  <div v-if="!hasDecks" class="flex px-4 sm:px-8 md:px-20 lg:px-40 py-5 w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  <div v-if="!hasDecks" class="flex px-4 sm:px-8 md:px-20 lg:px-40 py-5 w-full bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100">
     <div class="layout-content-container flex flex-col flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
         <p class="tracking-light text-2xl sm:text-3xl font-bold leading-tight">
@@ -50,7 +50,7 @@ function goToCreateDeck() {
           </div>
           <button
             @click="goToCreateDeck"
-            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f1f2f4] dark:bg-gray-700 text-[#121416] dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-11 px-6 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold leading-normal tracking-wide transition-all shadow-lg hover:shadow-primary-500/20">
             <span class="truncate">Criar deck</span>
           </button>
         </div>
@@ -58,7 +58,7 @@ function goToCreateDeck() {
     </div>
   </div>
 
-  <div v-else class="px-4 sm:px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5 bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  <div v-else class="px-4 sm:px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5 bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100">
     <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
         <p class="tracking-light text-2xl sm:text-3xl font-bold leading-tight">Todos os Decks</p>
@@ -72,8 +72,8 @@ function goToCreateDeck() {
             @click="goToStudy(deck.id)"
             class="flex h-full flex-col gap-4 rounded-lg w-full sm:w-[48%] md:w-[31%] lg:w-[23%] cursor-pointer">
 
-            <div class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 dark:text-gray-500" fill="none"
+            <div class="w-full aspect-square bg-secondary-50 dark:bg-primary-500/10 rounded-xl flex items-center justify-center border border-secondary-500/10 dark:border-primary-500/20 transition-colors group-hover:bg-secondary-500/20">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-secondary-500 dark:text-primary-500" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z" />

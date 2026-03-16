@@ -50,14 +50,14 @@ function confirmLogout() {
 </script>
 
 <template>
-  <div class="flex justify-center items-center px-4 py-10 bg-white dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white">
-    <div class="w-full max-w-md bg-gray-50 dark:bg-gray-800 rounded-xl shadow-md p-6 flex flex-col items-center gap-6 transition">
+  <div class="flex justify-center items-center px-4 py-10 bg-background-light dark:bg-background-dark min-h-screen text-gray-800 dark:text-gray-100">
+    <div class="w-full max-w-md bg-surface-light dark:bg-surface-dark rounded-2xl shadow-2xl p-8 flex flex-col items-center gap-6 border border-gray-100 dark:border-gray-800 transition">
       <!-- Foto -->
       <div class="relative group">
         <img
           :src="userPhoto"
           alt="Foto de perfil"
-          class="w-28 h-28 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700 transition-transform group-hover:scale-105"
+          class="w-32 h-32 rounded-full object-cover border-4 border-primary-500/10 dark:border-primary-500/20 shadow-xl transition-transform group-hover:scale-105"
         />
         <!-- <button
           @click="editProfile"
@@ -72,8 +72,8 @@ function confirmLogout() {
 
       <!-- Dados -->
       <div class="text-center space-y-1">
-        <h1 class="text-xl font-semibold">{{ user.name }}</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400">{{ user.email }}</p>
+        <h1 class="text-2xl font-bold text-primary-500">{{ user.name }}</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">{{ user.email }}</p>
       </div>
 
       <!-- Botão -->
@@ -89,13 +89,12 @@ function confirmLogout() {
 
       <button
         @click="showConfirmLogout"
-        class="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-5 py-2 transition-colors shadow"
+        class="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-error-500 hover:bg-error-600 text-white text-sm font-bold px-8 py-3 transition-all shadow-lg shadow-error-500/20 w-full"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 256 256">
-          <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-88a8,8,0,0,1-8,8H136v24a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h24V96a8,8,0,0,1,16,0v24h24A8,8,0,0,1,168,128Z" transform="rotate(225 128 128)"/>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 256 256">
           <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40-88a8,8,0,0,1-8,8H136v24a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h24V96a8,8,0,0,1,16,0v24h24A8,8,0,0,1,168,128Z" transform="rotate(225 128 128)"/>
         </svg>
-        Sair
+        Sair da Conta
       </button>
     </div>
   </div>

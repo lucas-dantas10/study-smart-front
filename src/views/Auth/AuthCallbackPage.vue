@@ -23,7 +23,7 @@ try {
 </script>
 
 <template>
-  <div class="flex justify-center items-center min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  <div class="flex justify-center items-center min-h-screen bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100">
     <LoadingOverlay :show="true" message="Entrando com Google..." />
   </div>
 </template>

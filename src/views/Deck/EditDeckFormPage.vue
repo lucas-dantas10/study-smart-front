@@ -47,12 +47,12 @@ async function saveDeck() {
 </script>
 
 <template>
-  <div class="px-6 py-8 w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen">
+  <div class="px-6 py-8 w-full bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 min-h-screen">
     <div class="max-w-2xl mx-auto flex flex-col gap-6">
       <div class="flex items-center gap-3">
         <button
           @click="router.back()"
-          class="h-9 w-9 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          class="h-9 w-9 rounded-full flex items-center justify-center bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 hover:border-primary-500 hover:text-primary-500 dark:hover:border-primary-500 dark:hover:text-primary-500 transition shadow-sm"
           title="Voltar"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,17 +64,17 @@ async function saveDeck() {
 
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
-          <label for="title" class="text-sm font-medium">Título <span class="text-red-500">*</span></label>
+          <label for="title" class="text-sm font-medium text-gray-700 dark:text-gray-300">Título <span class="text-error-500">*</span></label>
           <input
             id="title"
             v-model="title"
             @input="titleError = ''"
             type="text"
-            class="w-full rounded-lg border-none bg-gray-100 dark:bg-gray-800 h-11 px-4 text-base placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-0"
-            :class="{'border-red-500': titleError}"
+            class="w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark h-11 px-4 text-base placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all text-gray-800 dark:text-gray-100"
+            :class="{'border-error-500': titleError, 'focus:ring-error-500/20': titleError}"
             placeholder="Título do deck"
           />
-          <p v-if="titleError" class="text-red-500 text-sm mt-1">{{ titleError }}</p>
+          <p v-if="titleError" class="text-error-500 text-sm mt-1">{{ titleError }}</p>
         </div>
 
 <!--        <div class="flex flex-col gap-2">-->
@@ -110,16 +110,16 @@ async function saveDeck() {
 <!--          />-->
 <!--        </div>-->
 
-        <div class="flex gap-3 mt-4">
+        <div class="flex gap-4 mt-6">
           <button
             @click="saveDeck"
-            class="flex items-center justify-center cursor-pointer gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2 shadow transition"
+            class="flex items-center justify-center cursor-pointer gap-2 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold px-6 py-3 shadow-lg hover:shadow-primary-500/20 transition"
           >
             Salvar Alterações
           </button>
           <button
             @click="router.back()"
-            class="flex items-center justify-center cursor-pointer gap-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-medium px-5 py-2 transition"
+            class="flex items-center justify-center cursor-pointer gap-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium px-6 py-3 transition"
           >
             Cancelar
           </button>

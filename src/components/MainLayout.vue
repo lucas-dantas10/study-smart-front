@@ -43,10 +43,10 @@ function closeMenu() {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-gray-900 min-h-screen font-poppins flex flex-col">
-    <nav class="flex justify-between items-center px-4 sm:px-8 h-16 shadow-sm bg-white dark:bg-gray-800">
+  <div class="bg-background-light dark:bg-background-dark min-h-screen font-poppins flex flex-col">
+    <nav class="flex justify-between items-center px-4 sm:px-8 h-16 shadow-sm bg-surface-light dark:bg-surface-dark">
       <div class="flex items-center">
-        <div class="font-bold text-lg tracking-wide text-gray-900 dark:text-white">
+        <div class="font-bold text-lg tracking-wide text-primary-500 dark:text-white">
           StudySmart
         </div>
       </div>
@@ -54,19 +54,19 @@ function closeMenu() {
       <div class="hidden md:flex items-center gap-4 lg:gap-6">
         <router-link
             to="/"
-            class="text-base text-gray-900 dark:text-white font-medium px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="text-base text-gray-700 dark:text-gray-300 font-medium px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-500/10"
         >
           Início
         </router-link>
         <router-link
             to="/decks"
-            class="text-base text-gray-900 dark:text-white font-medium px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="text-base text-gray-700 dark:text-gray-300 font-medium px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-500/10"
         >
           Decks
         </router-link>
         <button
           @click="toggleHelpModal"
-          class="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full border border-gray-400 dark:border-gray-600 text-gray-900 dark:text-white font-bold hover:bg-gray-100 dark:hover:bg-gray-700"
+          class="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-bold hover:bg-primary-50 dark:hover:bg-primary-500/10"
           aria-label="Abrir ajuda"
           title="Ajuda"
         >
@@ -87,7 +87,7 @@ function closeMenu() {
       </div>
 
       <div class="md:hidden flex items-center">
-        <button @click="toggleMenu" class="cursor-pointer text-gray-900 dark:text-white focus:outline-none">
+        <button @click="toggleMenu" class="cursor-pointer text-primary-500 dark:text-white focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M4 6h16M4 12h16M4 18h16"/>
@@ -133,7 +133,7 @@ function closeMenu() {
       </div>
     </transition>
 
-    <main class="w-full flex flex-col flex-1 text-gray-900 dark:text-white px-4 sm:px-8 py-4">
+    <main class="w-full flex flex-col flex-1 text-gray-800 dark:text-gray-100 px-4 sm:px-8 py-4">
       <router-view/>
     </main>
 

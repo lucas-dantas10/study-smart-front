@@ -10,17 +10,17 @@ function loginWithGoogle() {
 </script>
 
 <template>
-  <div class="flex justify-center items-center px-4 py-10 bg-white dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white">
-    <div class="w-full max-w-md bg-gray-50 dark:bg-gray-800 rounded-xl shadow-md p-6 flex flex-col items-center gap-6 transition">
+  <div class="flex justify-center items-center px-4 py-10 bg-background-light dark:bg-background-dark min-h-screen text-gray-800 dark:text-gray-100">
+    <div class="w-full max-w-md bg-surface-light dark:bg-surface-dark rounded-xl shadow-md p-6 flex flex-col items-center gap-6 transition border border-gray-100 dark:border-gray-800">
       
-      <h1 class="text-2xl font-bold text-center">Bem-vindo</h1>
-      <p class="text-sm text-gray-600 dark:text-gray-400 text-center">
+      <h1 class="text-2xl font-bold text-center text-primary-500">Bem-vindo</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
         Entre para continuar usando o app
       </p>
 
       <button
         @click="loginWithGoogle"
-        class="flex cursor-pointer items-center justify-center gap-3 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-3 transition-colors shadow w-full"
+        class="flex cursor-pointer items-center justify-center gap-3 rounded-full bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium px-5 py-3 transition-colors shadow-lg hover:shadow-primary-500/20 w-full"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 bg-white rounded-full p-1" viewBox="0 0 48 48">
           <path fill="#EA4335" d="M24 9.5c3.1 0 5.9 1.1 8.1 3.1l6-6C34.6 2.4 29.6 0 24 0 14.6 0 6.3 5.7 2.5 14l7 5.4C11.6 13.6 17.3 9.5 24 9.5z"/>
