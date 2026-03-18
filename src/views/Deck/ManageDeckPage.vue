@@ -65,51 +65,52 @@ function goBack() {
         </button>
       </div>
 
-      <div
-          v-if="cards.length"
-          v-for="card in cards"
-          :key="card.id"
-          class="bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow"
-      >
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-          <div>
-            <p class="text-base font-semibold text-gray-800 dark:text-gray-100">
-              {{ card.front_text }}
-            </p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-              {{ card.back_text }}
-            </p>
+      <div v-if="cards.length" class="flex flex-col gap-4 p-4">
+        <div
+            v-for="card in cards"
+            :key="card.id"
+            class="bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow"
+        >
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+            <div>
+              <p class="text-base font-semibold text-gray-800 dark:text-gray-100">
+                {{ card.front_text }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ card.back_text }}
+              </p>
+            </div>
+
+            <div class="flex-shrink-0">
+              <span
+                  v-if="card.next_review_at"
+                  class="inline-block text-xs sm:text-sm text-white bg-secondary-500 px-3 py-1 rounded-full whitespace-nowrap shadow-sm"
+              >
+                📅 {{ card.next_review_at }}
+              </span>
+              <span
+                  v-else
+                  class="inline-block text-xs sm:text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full whitespace-nowrap"
+              >
+                Nenhuma revisão
+              </span>
+            </div>
           </div>
 
-          <div class="flex-shrink-0">
-            <span
-                v-if="card.next_review_at"
-                class="inline-block text-xs sm:text-sm text-white bg-secondary-500 px-3 py-1 rounded-full whitespace-nowrap shadow-sm"
+          <div class="flex gap-2 mt-2">
+            <button
+                @click="editCard(card.id)"
+                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-primary-50 dark:bg-primary-500/10 hover:bg-primary-100 dark:hover:bg-primary-500/20 text-sm text-primary-600 dark:text-primary-500 font-medium rounded-full transition"
             >
-              📅 {{ card.next_review_at }}
-            </span>
-            <span
-                v-else
-                class="inline-block text-xs sm:text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full whitespace-nowrap"
+              Editar
+            </button>
+            <button
+                @click="deleteCard(card.id)"
+                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-error-500/10 hover:bg-error-500/20 text-sm text-error-500 font-medium rounded-full transition"
             >
-              Nenhuma revisão
-            </span>
+              Excluir
+            </button>
           </div>
-        </div>
-
-        <div class="flex gap-2 mt-2">
-          <button
-              @click="editCard(card.id)"
-              class="flex items-center justify-center px-4 h-8 cursor-pointer bg-primary-50 dark:bg-primary-500/10 hover:bg-primary-100 dark:hover:bg-primary-500/20 text-sm text-primary-600 dark:text-primary-500 font-medium rounded-full transition"
-          >
-            Editar
-          </button>
-          <button
-              @click="deleteCard(card.id)"
-              class="flex items-center justify-center px-4 h-8 cursor-pointer bg-error-500/10 hover:bg-error-500/20 text-sm text-error-500 font-medium rounded-full transition"
-          >
-            Excluir
-          </button>
         </div>
       </div>
 
