@@ -1,12 +1,16 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import ConfirmationModal from '@/components/ConfirmationModal.vue';
 
 const router = useRouter()
 const store = useStore()
 
 const decks = computed(() => store.state.deck.list)
+
+const showDeleteModal = ref(false)
+const deckToDelete = ref(null)
 
 onMounted(async () => {
   await store.dispatch('deck/fetchDecks')
@@ -20,10 +24,22 @@ function editDeck(deckId) {
     router.push({ name: 'EditDeckFormPage',  params: { deckId } });
 }
 
-async function deleteDeck(deckId) {
-    if (confirm('Tem certeza que deseja excluir este deck?')) {
-        await store.dispatch('deck/removeDeck', deckId)
+function deleteDeck(deckId) {
+    deckToDelete.value = deckId
+    showDeleteModal.value = true
+}
+
+async function confirmDeleteDeck() {
+    if (deckToDelete.value) {
+        await store.dispatch('deck/removeDeck', deckToDelete.value)
+        showDeleteModal.value = false
+        deckToDelete.value = null
     }
+}
+
+function cancelDeleteDeck() {
+    showDeleteModal.value = false
+    deckToDelete.value = null
 }
 
 function manageCards(deckId, deckTitle) {
@@ -109,6 +125,16 @@ function manageCards(deckId, deckTitle) {
             <div v-else class="text-center text-gray-500 dark:text-gray-400 py-12">
                 Nenhum deck criado ainda.
             </div>
+
+            <ConfirmationModal
+                :show="showDeleteModal"
+                title="Excluir Deck"
+                message="Tem certeza que deseja excluir este deck? Esta ação não pode ser desfeita."
+                confirm-text="Excluir"
+                cancel-text="Cancelar"
+                @confirm="confirmDeleteDeck"
+                @cancel="cancelDeleteDeck"
+            />
         </div>
     </div>
 </template>

@@ -1,7 +1,8 @@
 <script setup>
-import {computed, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {useStore} from 'vuex';
+import ConfirmationModal from '@/components/ConfirmationModal.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -10,6 +11,9 @@ const deckId = route.params.deckId;
 const deckName = route.params.deckTitle;
 
 const cards = computed(() => store.getters['card/cardsByDeck'](deckId));
+
+const showDeleteModal = ref(false)
+const cardToDelete = ref(null)
 
 onMounted(async () => {
   try {
@@ -26,10 +30,22 @@ function editCard(cardId) {
   router.push({name: 'EditCardFormPage', params: {deckId, cardId}})
 }
 
-async function deleteCard(cardId) {
-  if (confirm('Tem certeza que deseja excluir este card?')) {
-    await store.dispatch('card/removeCard', {cardId, deckId});
+function deleteCard(cardId) {
+  cardToDelete.value = cardId
+  showDeleteModal.value = true
+}
+
+async function confirmDeleteCard() {
+  if (cardToDelete.value) {
+    await store.dispatch('card/removeCard', {cardId: cardToDelete.value, deckId});
+    showDeleteModal.value = false
+    cardToDelete.value = null
   }
+}
+
+function cancelDeleteCard() {
+  showDeleteModal.value = false
+  cardToDelete.value = null
 }
 
 function goBack() {
@@ -132,6 +148,16 @@ function goBack() {
           Criar Primeiro Card
         </button>
       </div>
+
+      <ConfirmationModal
+          :show="showDeleteModal"
+          title="Excluir Card"
+          message="Tem certeza que deseja excluir este card? Esta ação não pode ser desfeita."
+          confirm-text="Excluir"
+          cancel-text="Cancelar"
+          @confirm="confirmDeleteCard"
+          @cancel="cancelDeleteCard"
+      />
     </div>
   </div>
 </template>
