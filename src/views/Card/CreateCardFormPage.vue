@@ -13,8 +13,9 @@ const front = ref('');
 const back = ref('');
 const frontError = ref('');
 const backError = ref('');
+const showSuccessMessage = ref(false);
 
-async function saveCard() {
+async function saveCard(stayOnPage = false) {
   let hasError = false;
 
   if (!front.value.trim()) {
@@ -34,10 +35,19 @@ async function saveCard() {
   if (hasError) return;
 
   await store.dispatch('card/saveCard', {front: front.value, back: back.value, deckId});
-  const deck = await store.dispatch('deck/fetchDeck', deckId);
-  const deckTitle = deck.title;
 
-  await router.push({name: 'ManageDeckPage', params: {deckId, deckTitle}});
+  if (stayOnPage) {
+    front.value = '';
+    back.value = '';
+    showSuccessMessage.value = true;
+    setTimeout(() => {
+      showSuccessMessage.value = false;
+    }, 3000);
+  } else {
+    const deck = await store.dispatch('deck/fetchDeck', deckId);
+    const deckTitle = deck.title;
+    await router.push({name: 'ManageDeckPage', params: {deckId, deckTitle}});
+  }
 }
 </script>
 
@@ -48,6 +58,13 @@ async function saveCard() {
       <div class="flex flex-wrap justify-between gap-3 p-4">
         <p class="tracking-light text-[32px] font-bold leading-tight text-primary-500">Criar Novo Card</p>
       </div>
+
+      <transition name="fade">
+        <div v-if="showSuccessMessage" class="mx-4 p-4 bg-success-500/10 border border-success-500/20 text-success-500 rounded-xl flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <span class="text-sm font-medium">Card salvo com sucesso! Você pode adicionar outro agora.</span>
+        </div>
+      </transition>
 
       <div class="flex flex-col gap-6 p-4">
         <div class="flex flex-col gap-2">
@@ -86,10 +103,16 @@ async function saveCard() {
 
         <div class="flex flex-col sm:flex-row gap-4 mt-4">
           <button
-              @click="saveCard"
+              @click="saveCard(false)"
               class="flex items-center justify-center cursor-pointer rounded-xl h-11 px-8 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold shadow-lg hover:shadow-primary-500/20 transition-all w-full sm:w-auto"
           >
-            Salvar Card
+            Salvar e Voltar
+          </button>
+          <button
+              @click="saveCard(true)"
+              class="flex items-center justify-center cursor-pointer rounded-xl h-11 px-8 bg-surface-light dark:bg-surface-dark border border-primary-500/30 text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-500/10 text-sm font-bold transition-all w-full sm:w-auto"
+          >
+            Salvar e Adicionar Outro
           </button>
           <button
               @click="router.back()"
@@ -102,3 +125,15 @@ async function saveCard() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
