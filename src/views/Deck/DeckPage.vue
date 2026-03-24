@@ -13,7 +13,7 @@ const showDeleteModal = ref(false)
 const deckToDelete = ref(null)
 
 onMounted(async () => {
-  await store.dispatch('deck/fetchDecks')
+  await store.dispatch('deck/fetchDecks', true)
 });
 
 function createDeck() {

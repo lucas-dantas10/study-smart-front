@@ -99,7 +99,8 @@ export default {
 			commit('setError', null)
 			try {
 				await save(front, back, deckId)
-				return dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
+				await dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
+				return dispatch('deck/fetchDecks', true, { root: true })
 			} catch (error) {
 				commit('setError', error)
 				throw error
@@ -113,7 +114,8 @@ export default {
 			try {
 				await update(cardId, front, back)
 				if (deckId) {
-					return dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
+					await dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
+					return dispatch('deck/fetchDecks', true, { root: true })
 				}
 			} catch (error) {
 				commit('setError', error)
@@ -128,7 +130,8 @@ export default {
 			try {
 				await remove(cardId)
 				if (deckId) {
-					return dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
+					await dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
+					return dispatch('deck/fetchDecks', true, { root: true })
 				}
 			} catch (error) {
 				commit('setError', error)
@@ -137,10 +140,11 @@ export default {
 				commit('setLoading', false)
 			}
 		},
-		async reviewCard({ commit }, { cardId, level }) {
+		async reviewCard({ dispatch, commit }, { cardId, level }) {
 			commit('setError', null)
 			try {
 				await review(cardId, level)
+				return dispatch('deck/fetchDecks', true, { root: true })
 			} catch (error) {
 				commit('setError', error)
 				throw error

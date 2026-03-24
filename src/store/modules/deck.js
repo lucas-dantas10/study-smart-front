@@ -95,7 +95,7 @@ export default {
 			commit('setError', null)
 			try {
 				await update(deckId, title)
-				return dispatch('fetchDecks', true) // Force refresh
+				return dispatch('fetchDecks', true)
 			} catch (error) {
 				commit('setError', error)
 				throw error
@@ -108,7 +108,7 @@ export default {
 			commit('setError', null);
 			try {
 				await remove(deckId);
-				return dispatch('fetchDecks', true); // Force refresh
+				return dispatch('fetchDecks', true);
 			} catch (error) {
 				commit('setError', error);
 				throw error;
