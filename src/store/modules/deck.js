@@ -41,12 +41,15 @@ export default {
 		}
 	},
 	actions: {
-		async fetchDecks({ commit, state }, forceRefresh = false) {
+		async fetchDecks({ commit, state }, options = false) {
+			const forceRefresh = typeof options === 'boolean' ? options : !!options.forceRefresh;
+			const showLoading = typeof options === 'object' ? options.showLoading !== false : true;
+
 			if (!forceRefresh && state.list.length > 0) {
 				return state.list;
 			}
 
-			commit('setLoading', true)
+			if (showLoading) commit('setLoading', true)
 			commit('setError', null)
 			try {
 				const decks = await getDecks()
@@ -56,7 +59,7 @@ export default {
 				commit('setError', error)
 				throw error
 			} finally {
-				commit('setLoading', false)
+				if (showLoading) commit('setLoading', false)
 			}
 		},
 		async fetchDeck({ commit, state }, deckId) {
