@@ -1,8 +1,13 @@
 import api from "@/axios/api";
 
-export async function getDecks() {
+export async function getDecks(page = 0, size = 10) {
     try {
-        const { data } = await api.get("/api/v1/deck");
+        const { data } = await api.get("/api/v1/deck", {
+            params: {
+                page: page,
+                size: size
+            }
+        });
 
         return data;
     } catch (error) {

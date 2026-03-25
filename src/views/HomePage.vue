@@ -16,6 +16,11 @@ const decks = computed(() => (store.state.deck.list || []).map(d => ({
 })));
 const hasDecks = computed(() => decks.value.length > 0);
 const user = computed(() => store.state.auth.user || {});
+const pagination = computed(() => store.state.deck.pagination);
+
+async function changePage(page) {
+  await store.dispatch('deck/fetchDecks', { page, forceRefresh: true });
+}
 
 function formatLastStudied(date) {
   if (!date) return 'Nunca estudado';
@@ -89,12 +94,12 @@ function goToCreateDeck() {
       </div>
 
       <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div class="flex items-stretch p-4 gap-3 w-full flex-wrap">
+        <div class="flex items-start p-4 gap-3 w-full flex-wrap">
           <div
             v-for="deck in decks"
             :key="deck.id"
             @click="goToStudy(deck.id)"
-            class="flex h-full flex-col gap-4 rounded-lg w-full sm:w-[48%] md:w-[31%] lg:w-[23%] cursor-pointer">
+            class="flex flex-col gap-4 rounded-lg w-full sm:w-[48%] md:w-[31%] lg:w-[23%] cursor-pointer">
 
             <div class="w-full aspect-square bg-secondary-50 dark:bg-primary-500/10 rounded-xl flex items-center justify-center border border-secondary-500/10 dark:border-primary-500/20 transition-colors group-hover:bg-secondary-500/20">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-secondary-500 dark:text-primary-500" fill="none"
@@ -130,6 +135,34 @@ function goToCreateDeck() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div v-if="pagination.totalPages > 1" class="flex justify-center items-center gap-4 p-6 mt-4">
+        <button
+          @click="changePage(pagination.currentPage - 1)"
+          :disabled="pagination.first"
+          class="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+          title="Página Anterior">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Página {{ pagination.currentPage + 1 }} de {{ pagination.totalPages }}
+          </span>
+        </div>
+
+        <button
+          @click="changePage(pagination.currentPage + 1)"
+          :disabled="pagination.last"
+          class="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+          title="Próxima Página">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
     </div>
   </div>

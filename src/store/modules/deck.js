@@ -4,6 +4,14 @@ export default {
 	namespaced: true,
 	state: () => ({
 		list: [],
+		pagination: {
+			totalPages: 0,
+			totalElements: 0,
+			currentPage: 0,
+			pageSize: 8,
+			last: true,
+			first: true
+		},
 		current: null,
 		loading: false,
 		error: null
@@ -30,8 +38,20 @@ export default {
 				state.error = error
 			}
 		},
-		setDecks(state, decks) {
-			state.list = decks
+		setDecks(state, response) {
+			if (response && response.content) {
+				state.list = response.content
+				state.pagination = {
+					totalPages: response.total_pages,
+					totalElements: response.total_elements,
+					currentPage: response.number,
+					pageSize: response.size,
+					last: response.last,
+					first: response.first
+				}
+			} else {
+				state.list = response
+			}
 		},
 		setCurrentDeck(state, deck) {
 			state.current = deck
@@ -41,20 +61,22 @@ export default {
 		}
 	},
 	actions: {
-		async fetchDecks({ commit, state }, options = false) {
+		async fetchDecks({ commit, state }, options = {}) {
 			const forceRefresh = typeof options === 'boolean' ? options : !!options.forceRefresh;
 			const showLoading = typeof options === 'object' ? options.showLoading !== false : true;
+			const page = options.page !== undefined ? options.page : state.pagination.currentPage;
+			const size = options.size !== undefined ? options.size : state.pagination.pageSize;
 
-			if (!forceRefresh && state.list.length > 0) {
+			if (!forceRefresh && state.list.length > 0 && page === state.pagination.currentPage && size === state.pagination.pageSize) {
 				return state.list;
 			}
 
 			if (showLoading) commit('setLoading', true)
 			commit('setError', null)
 			try {
-				const decks = await getDecks()
-				commit('setDecks', decks)
-				return decks
+				const response = await getDecks(page, size)
+				commit('setDecks', response)
+				return response.content
 			} catch (error) {
 				commit('setError', error)
 				throw error
