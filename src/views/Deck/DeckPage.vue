@@ -8,6 +8,11 @@ const router = useRouter()
 const store = useStore()
 
 const decks = computed(() => store.state.deck.list)
+const pagination = computed(() => store.state.deck.pagination);
+
+async function changePage(page) {
+  await store.dispatch('deck/fetchDecks', { page, forceRefresh: true });
+}
 
 const showDeleteModal = ref(false)
 const deckToDelete = ref(null)
@@ -135,6 +140,34 @@ function manageCards(deckId, deckTitle) {
                 @confirm="confirmDeleteDeck"
                 @cancel="cancelDeleteDeck"
             />
+
+            <div v-if="pagination.totalPages > 1" class="flex justify-center items-center gap-4 p-6 mt-4">
+                <button
+                    @click="changePage(pagination.currentPage - 1)"
+                    :disabled="pagination.first"
+                    class="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                    title="Página Anterior">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Página {{ pagination.currentPage + 1 }} de {{ pagination.totalPages }}
+                    </span>
+                </div>
+
+                <button
+                    @click="changePage(pagination.currentPage + 1)"
+                    :disabled="pagination.last"
+                    class="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                    title="Próxima Página">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </template>
