@@ -13,8 +13,8 @@ function loginWithGoogle() {
   <div class="flex justify-center items-center px-4 py-10 bg-background-light dark:bg-background-dark min-h-screen text-gray-800 dark:text-gray-100">
     <div class="w-full max-w-md bg-surface-light dark:bg-surface-dark rounded-xl shadow-md p-6 flex flex-col items-center gap-6 transition border border-gray-100 dark:border-gray-800">
       
-      <h1 class="text-2xl font-bold text-center text-primary-500">Bem-vindo</h1>
-      <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+      <h1 class="text-2xl font-bold text-center text-fg-primary">Bem-vindo</h1>
+      <p class="text-sm text-fg-muted text-center">
         Entre para continuar usando o app
       </p>
 

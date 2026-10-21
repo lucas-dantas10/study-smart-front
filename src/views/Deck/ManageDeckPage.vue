@@ -60,7 +60,7 @@ function goBack() {
         <div class="flex items-center gap-3">
           <button
               @click="goBack"
-              class="flex items-center justify-center overflow-hidden rounded-full h-8 w-8 bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-500 cursor-pointer transition shadow-sm"
+              class="flex items-center justify-center overflow-hidden rounded-full h-8 w-8 bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 text-gray-600 dark:text-gray-300 hover:text-fg-primary dark:hover:text-fg-primary cursor-pointer transition shadow-sm"
               title="Voltar"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -69,8 +69,8 @@ function goBack() {
             </svg>
           </button>
           <div>
-            <p class="tracking-light text-[32px] font-bold leading-tight min-w-72 text-primary-500">Gerenciar Cards</p>
-            <p class="text-gray-500 dark:text-gray-400 text-sm">Deck: {{ deckName }}</p>
+            <p class="tracking-light text-[32px] font-bold leading-tight min-w-72 text-fg-primary">Gerenciar Cards</p>
+            <p class="text-fg-muted text-sm">Deck: {{ deckName }}</p>
           </div>
         </div>
         <button
@@ -92,7 +92,7 @@ function goBack() {
               <p class="text-base font-semibold text-gray-800 dark:text-gray-100">
                 {{ card.front_text }}
               </p>
-              <p class="text-sm text-gray-500 dark:text-gray-400">
+              <p class="text-sm text-fg-muted">
                 {{ card.back_text }}
               </p>
             </div>
@@ -106,7 +106,7 @@ function goBack() {
               </span>
               <span
                   v-else
-                  class="inline-block text-xs sm:text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full whitespace-nowrap"
+                  class="inline-block text-xs sm:text-sm text-fg-muted bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full whitespace-nowrap"
               >
                 Nenhuma revisão
               </span>
@@ -116,13 +116,13 @@ function goBack() {
           <div class="flex gap-2 mt-2">
             <button
                 @click="editCard(card.id)"
-                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-primary-50 dark:bg-primary-500/10 hover:bg-primary-100 dark:hover:bg-primary-500/20 text-sm text-primary-600 dark:text-primary-500 font-medium rounded-full transition"
+                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-primary-50 dark:bg-primary-500/10 hover:bg-primary-100 dark:hover:bg-primary-500/20 text-sm text-fg-primary font-medium rounded-full transition"
             >
               Editar
             </button>
             <button
                 @click="deleteCard(card.id)"
-                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-error-500/10 hover:bg-error-500/20 text-sm text-error-500 font-medium rounded-full transition"
+                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-error-500/10 hover:bg-error-500/20 text-sm text-fg-error font-medium rounded-full transition"
             >
               Excluir
             </button>
@@ -131,14 +131,14 @@ function goBack() {
       </div>
 
       <div v-else class="flex flex-col items-center gap-4 mt-12 bg-surface-light dark:bg-surface-dark p-12 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary-500 animate-pulse" fill="none"
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-fg-primary animate-pulse" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round"
                 d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z"/>
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6"/>
         </svg>
         <p class="text-xl font-bold text-gray-800 dark:text-gray-100">Nenhum card encontrado</p>
-        <p class="text-base text-gray-500 dark:text-gray-400 text-center max-w-sm">
+        <p class="text-base text-fg-muted text-center max-w-sm">
           Este deck ainda está vázio. Comece criando seu primeiro card agora para começar sua jornada!
         </p>
         <button

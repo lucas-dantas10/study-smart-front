@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted, onBeforeUnmount } from 'vue'
 const props = defineProps({
   show: { type: Boolean, default: false },
   title: { type: String, default: 'Confirmação' },
@@ -16,21 +17,28 @@ function confirm() {
 function cancel() {
   emit('cancel')
 }
+
+function onKeydown(e) {
+  if (e.key === 'Escape' && props.show) cancel()
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
   <transition name="fade">
-    <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" @click.self="cancel">
       <div class="relative w-full max-w-md mx-4 rounded-2xl bg-surface-light dark:bg-surface-dark shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
         <div class="px-5 py-4 bg-primary-50 dark:bg-primary-500/10 border-b border-primary-100 dark:border-primary-500/20">
           <div class="flex items-center gap-3">
             <div class="h-9 w-9 rounded-full bg-primary-100 dark:bg-primary-500/20 flex items-center justify-center">
-              <svg class="h-5 w-5 text-primary-600 dark:text-primary-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="h-5 w-5 text-fg-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 9V4M12 20V15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <h3 class="text-base font-semibold text-primary-700 dark:text-white">{{ title }}</h3>
+            <h3 id="confirm-modal-title" class="text-base font-semibold text-primary-700 dark:text-white">{{ title }}</h3>
           </div>
         </div>
         <div class="px-5 py-4 space-y-2">

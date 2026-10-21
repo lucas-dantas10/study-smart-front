@@ -50,7 +50,7 @@ function confirmLogout() {
 </script>
 
 <template>
-  <div class="flex justify-center items-center px-4 py-10 bg-background-light dark:bg-background-dark min-h-screen text-gray-800 dark:text-gray-100">
+  <div class="flex justify-center items-center px-4 py-10 text-gray-800 dark:text-gray-100">
     <div class="w-full max-w-md bg-surface-light dark:bg-surface-dark rounded-2xl shadow-2xl p-8 flex flex-col items-center gap-6 border border-gray-100 dark:border-gray-800 transition">
       <!-- Foto -->
       <div class="relative group">
@@ -72,8 +72,8 @@ function confirmLogout() {
 
       <!-- Dados -->
       <div class="text-center space-y-1">
-        <h1 class="text-2xl font-bold text-primary-500">{{ user.name }}</h1>
-        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">{{ user.email }}</p>
+        <h1 class="text-2xl font-bold text-fg-primary">{{ user.name }}</h1>
+        <p class="text-sm text-fg-muted font-medium">{{ user.email }}</p>
       </div>
 
       <!-- Botão -->

@@ -47,12 +47,12 @@ async function saveDeck() {
 </script>
 
 <template>
-  <div class="px-6 py-8 w-full bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 min-h-screen">
+  <div class="px-6 py-8 w-full bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100">
     <div class="max-w-2xl mx-auto flex flex-col gap-6">
       <div class="flex items-center gap-3">
         <button
           @click="router.back()"
-          class="h-9 w-9 rounded-full flex items-center justify-center bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 hover:border-primary-500 hover:text-primary-500 dark:hover:border-primary-500 dark:hover:text-primary-500 transition shadow-sm"
+          class="h-9 w-9 rounded-full flex items-center justify-center bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 hover:border-primary-500 hover:text-fg-primary dark:hover:border-primary-500 dark:hover:text-fg-primary transition shadow-sm"
           title="Voltar"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,26 +64,26 @@ async function saveDeck() {
 
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
-          <label for="title" class="text-sm font-medium text-gray-700 dark:text-gray-300">Título <span class="text-error-500">*</span></label>
+          <label for="title" class="text-sm font-medium text-gray-700 dark:text-gray-300">Título <span class="text-fg-error">*</span></label>
           <input
             id="title"
             v-model="title"
             @input="titleError = ''"
             type="text"
-            class="w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark h-11 px-4 text-base placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all text-gray-800 dark:text-gray-100"
-            :class="{'border-error-500': titleError, 'focus:ring-error-500/20': titleError}"
+            class="w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark h-11 px-4 text-base placeholder:text-fg-muted dark:placeholder:text-fg-muted focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all text-gray-800 dark:text-gray-100"
+            :class="{'border-error-500!': titleError, 'focus:ring-error-500/20': titleError}"
             placeholder="Título do deck"
           />
-          <p v-if="titleError" class="text-error-500 text-sm mt-1">{{ titleError }}</p>
+          <p v-if="titleError" class="text-fg-error text-sm mt-1">{{ titleError }}</p>
         </div>
 
 <!--        <div class="flex flex-col gap-2">-->
-<!--          <label for="description" class="text-sm font-medium">Descrição <span class="text-gray-500">(opcional)</span></label>-->
+<!--          <label for="description" class="text-sm font-medium">Descrição <span class="text-fg-muted">(opcional)</span></label>-->
 <!--          <textarea-->
 <!--            id="description"-->
 <!--            v-model="description"-->
 <!--            rows="3"-->
-<!--            class="w-full rounded-lg border-none bg-gray-100 dark:bg-gray-800 px-4 py-3 text-base placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-0 resize-none"-->
+<!--            class="w-full rounded-lg border-none bg-gray-100 dark:bg-gray-800 px-4 py-3 text-base placeholder:text-fg-muted dark:placeholder:text-fg-muted focus:outline-0 resize-none"-->
 <!--            placeholder="Descreva o conteúdo ou objetivo do deck..."-->
 <!--          ></textarea>-->
 <!--        </div>-->
@@ -106,7 +106,7 @@ async function saveDeck() {
 <!--            type="file"-->
 <!--            accept="image/*"-->
 <!--            @change="handleImageChange"-->
-<!--            class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900 file:text-indigo-700 dark:file:text-indigo-200 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800"-->
+<!--            class="mt-1 block w-full text-sm text-fg-muted file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900 file:text-indigo-700 dark:file:text-indigo-200 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800"-->
 <!--          />-->
 <!--        </div>-->
 
