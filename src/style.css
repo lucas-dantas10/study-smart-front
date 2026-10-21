@@ -16,6 +16,9 @@
 
   --color-success-500: #10b981;
   --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-pending-500: #f59e0b;
+  --color-pending-600: #b45309;
 
   --color-background-light: #f8fafc;
   --color-surface-light: #ffffff;
@@ -24,4 +27,60 @@
   --color-surface-dark: #161b2e;
 
   --font-poppins: "Poppins", sans-serif;
+  --font-card: "Newsreader", Georgia, serif;
+}
+
+/* Cores de texto com contraste mínimo 4,5:1 em cada tema; as escalas *-500 ficam para fundos e bordas */
+:root {
+  --fg-primary: #3a56d4;
+  --fg-info: #0e7490;
+  --fg-success: #047857;
+  --fg-error: #b91c1c;
+  --fg-pending: #b45309;
+  --fg-muted: #5b6475;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg-primary: #a5b4fc;
+    --fg-info: #67e8f9;
+    --fg-success: #34d399;
+    --fg-error: #f87171;
+    --fg-pending: #fbbf24;
+    --fg-muted: #9aa3b8;
+  }
+}
+
+@theme inline {
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-info: var(--fg-info);
+  --color-fg-success: var(--fg-success);
+  --color-fg-error: var(--fg-error);
+  --color-fg-pending: var(--fg-pending);
+  --color-fg-muted: var(--fg-muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.flip-scene { perspective: 1200px; }
+.flip-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.flip-card.is-flipped { transform: rotateY(180deg); }
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back { transform: rotateY(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

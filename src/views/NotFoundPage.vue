@@ -9,18 +9,18 @@ function goHome() {
 
 <template>
   <div
-    class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-tr from-primary-50 via-background-light to-secondary-50 dark:from-background-dark dark:via-surface-dark dark:to-background-dark text-gray-800 dark:text-gray-100 px-6 py-12"
+    class="flex flex-col items-center justify-center min-h-[60vh] bg-gradient-to-tr from-primary-50 via-background-light to-secondary-50 dark:from-background-dark dark:via-surface-dark dark:to-background-dark text-gray-800 dark:text-gray-100 px-6 py-12"
   >
     <div
       class="bg-surface-light dark:bg-surface-dark rounded-3xl shadow-2xl p-12 max-w-lg w-full text-center border border-gray-100 dark:border-gray-800"
     >
       <h1
-        class="text-8xl font-extrabold mb-6 tracking-wide text-primary-500 animate-pulse"
+        class="text-8xl font-extrabold mb-6 tracking-wide text-fg-primary animate-pulse"
       >
         404
       </h1>
       <p
-        class="text-xl font-semibold mb-8 leading-relaxed text-gray-600 dark:text-gray-400"
+        class="text-xl font-semibold mb-8 leading-relaxed text-gray-600 dark:text-fg-muted"
       >
         Ops! A página que você está procurando não foi encontrada.
       </p>

@@ -56,11 +56,11 @@ async function saveCard(stayOnPage = false) {
       class="flex flex-1 justify-center py-5 bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 px-4 sm:px-6 md:px-10 lg:px-40">
     <div class="flex flex-col w-full max-w-[640px]">
       <div class="flex flex-wrap justify-between gap-3 p-4">
-        <p class="tracking-light text-[32px] font-bold leading-tight text-primary-500">Criar Novo Card</p>
+        <p class="tracking-light text-[32px] font-bold leading-tight text-fg-primary">Criar Novo Card</p>
       </div>
 
       <transition name="fade">
-        <div v-if="showSuccessMessage" class="mx-4 p-4 bg-success-500/10 border border-success-500/20 text-success-500 rounded-xl flex items-center gap-2">
+        <div v-if="showSuccessMessage" class="mx-4 p-4 bg-success-500/10 border border-success-500/20 text-fg-success rounded-xl flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           <span class="text-sm font-medium">Card salvo com sucesso! Você pode adicionar outro agora.</span>
         </div>
@@ -70,7 +70,7 @@ async function saveCard(stayOnPage = false) {
         <div class="flex flex-col gap-2">
           <label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="card-front">
             Frente do Card
-            <span class="text-error-500">*</span>
+            <span class="text-fg-error">*</span>
           </label>
           <textarea
               id="card-front"
@@ -78,16 +78,16 @@ async function saveCard(stayOnPage = false) {
               @input="frontError = ''"
               rows="3"
               placeholder="Digite o conteúdo da frente..."
-              class="form-textarea w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all"
-              :class="{'border-error-500': frontError}"
+              class="form-textarea w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark text-gray-800 dark:text-gray-100 placeholder:text-fg-muted dark:placeholder:text-fg-muted px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all"
+              :class="{'border-error-500!': frontError}"
           ></textarea>
-          <p v-if="frontError" class="text-error-500 text-sm mt-1">{{ frontError }}</p>
+          <p v-if="frontError" class="text-fg-error text-sm mt-1">{{ frontError }}</p>
         </div>
 
         <div class="flex flex-col gap-2">
           <label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="card-back">
             Verso do Card
-            <span class="text-error-500">*</span>
+            <span class="text-fg-error">*</span>
           </label>
           <textarea
               id="card-back"
@@ -95,10 +95,10 @@ async function saveCard(stayOnPage = false) {
               @input="backError = ''"
               rows="3"
               placeholder="Digite o conteúdo do verso..."
-              class="form-textarea w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all"
-              :class="{'border-error-500': backError}"
+              class="form-textarea w-full rounded-xl border border-gray-100 dark:border-gray-800 bg-surface-light dark:bg-surface-dark text-gray-800 dark:text-gray-100 placeholder:text-fg-muted dark:placeholder:text-fg-muted px-4 py-3 text-base font-normal resize-none focus:outline-0 focus:ring-2 focus:ring-primary-500/20 transition-all"
+              :class="{'border-error-500!': backError}"
           ></textarea>
-          <p v-if="backError" class="text-error-500 text-sm mt-1">{{ backError }}</p>
+          <p v-if="backError" class="text-fg-error text-sm mt-1">{{ backError }}</p>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4 mt-4">
@@ -110,7 +110,7 @@ async function saveCard(stayOnPage = false) {
           </button>
           <button
               @click="saveCard(true)"
-              class="flex items-center justify-center cursor-pointer rounded-xl h-11 px-8 bg-surface-light dark:bg-surface-dark border border-primary-500/30 text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-500/10 text-sm font-bold transition-all w-full sm:w-auto"
+              class="flex items-center justify-center cursor-pointer rounded-xl h-11 px-8 bg-surface-light dark:bg-surface-dark border border-primary-500/30 text-fg-primary hover:bg-primary-50 dark:hover:bg-primary-500/10 text-sm font-bold transition-all w-full sm:w-auto"
           >
             Salvar e Adicionar Outro
           </button>
