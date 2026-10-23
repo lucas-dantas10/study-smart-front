@@ -1,5 +1,5 @@
 import { getCardsByDeckId, getCardsByStudy, getCardById, save, update, remove } from '@/services/card/cardService.js'
-import { review } from '@/services/review/reviewService.js'
+import { review, undoReview } from '@/services/review/reviewService.js'
 
 export default {
 	namespaced: true,
@@ -94,11 +94,11 @@ export default {
 				commit('setLoading', false)
 			}
 		},
-		async saveCard({ dispatch, commit }, { front, back, deckId }) {
+		async saveCard({ dispatch, commit }, { front, back, deckId, tags }) {
 			commit('setLoading', true)
 			commit('setError', null)
 			try {
-				await save(front, back, deckId)
+				await save(front, back, deckId, tags)
 				await dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
 				return dispatch('deck/fetchDecks', { forceRefresh: true, showLoading: false }, { root: true })
 			} catch (error) {
@@ -108,11 +108,13 @@ export default {
 				commit('setLoading', false)
 			}
 		},
-		async updateCard({ dispatch, commit }, { cardId, front, back, deckId }) {
+		async updateCard({ dispatch, commit }, { cardId, front, back, deckId, tags }) {
 			commit('setLoading', true)
 			commit('setError', null)
 			try {
-				await update(cardId, front, back)
+				await update(cardId, front, back, tags)
+				// o card em cache ficou desatualizado; a próxima abertura da edição busca de novo
+				commit('setCurrentCard', null)
 				if (deckId) {
 					await dispatch('fetchCardsByDeck', { deckId, forceRefresh: true })
 					return dispatch('deck/fetchDecks', { forceRefresh: true, showLoading: false }, { root: true })
@@ -138,6 +140,16 @@ export default {
 				throw error
 			} finally {
 				commit('setLoading', false)
+			}
+		},
+		async undoReview({ dispatch, commit }, { cardId }) {
+			commit('setError', null)
+			try {
+				await undoReview(cardId)
+				return dispatch('deck/fetchDecks', { forceRefresh: true, showLoading: false }, { root: true })
+			} catch (error) {
+				commit('setError', error)
+				throw error
 			}
 		},
 		async reviewCard({ dispatch, commit }, { cardId, level }) {

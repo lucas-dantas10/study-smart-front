@@ -68,6 +68,8 @@ const linkClass = 'nav-link text-sm text-gray-700 dark:text-gray-300 font-medium
           <div class="hidden md:flex items-center gap-1 ml-2">
             <router-link to="/" exact-active-class="is-active" :class="linkClass">Início</router-link>
             <router-link to="/decks" active-class="is-active" :class="linkClass">Decks</router-link>
+            <router-link to="/search" active-class="is-active" :class="linkClass">Buscar</router-link>
+            <router-link to="/stats" active-class="is-active" :class="linkClass">Estatísticas</router-link>
           </div>
         </div>
 
@@ -122,6 +124,8 @@ const linkClass = 'nav-link text-sm text-gray-700 dark:text-gray-300 font-medium
         <div v-if="open" id="mobile-menu" class="md:hidden absolute top-full inset-x-0 bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-800 shadow-xl p-3 flex flex-col gap-1">
           <router-link to="/" exact-active-class="is-active" :class="[linkClass, 'text-base py-3']">Início</router-link>
           <router-link to="/decks" active-class="is-active" :class="[linkClass, 'text-base py-3']">Decks</router-link>
+          <router-link to="/search" active-class="is-active" :class="[linkClass, 'text-base py-3']">Buscar</router-link>
+          <router-link to="/stats" active-class="is-active" :class="[linkClass, 'text-base py-3']">Estatísticas</router-link>
           <router-link to="/profile" active-class="is-active" :class="[linkClass, 'text-base py-3 flex items-center gap-3']">
             <img class="w-7 h-7 rounded-full object-cover" :src="userPhoto" alt="" />
             Perfil

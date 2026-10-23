@@ -73,6 +73,22 @@ const routes = [
         props: true
       },
       {
+        path: '/stats',
+        component: () => import('@/views/StatsPage.vue'),
+        name: 'StatsPage'
+      },
+      {
+        path: '/search',
+        component: () => import('@/views/Card/SearchCardsPage.vue'),
+        name: 'SearchCardsPage'
+      },
+      {
+        path: '/decks/:deckId/import',
+        component: () => import('@/views/Card/BulkAddCardsPage.vue'),
+        name: 'BulkAddCardsPage',
+        props: true
+      },
+      {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: () => import('@/views/NotFoundPage.vue')

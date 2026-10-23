@@ -30,12 +30,13 @@ export async function getCardById(cardId) {
     }
 }
 
-export async function save(front, back, deckId) {
+export async function save(front, back, deckId, tags = []) {
     try {
         const { data } = await api.post("/api/v1/card", {
             deck_id: deckId,
             front_text: front,
-            back_text: back
+            back_text: back,
+            tags
         });
 
         return data;
@@ -44,11 +45,13 @@ export async function save(front, back, deckId) {
     }
 }
 
-export async function update(cardId, front, back) {
+export async function update(cardId, front, back, tags) {
     try {
         const { data } = await api.put(`/api/v1/card/${cardId}`, {
             front_text: front,
-            back_text: back
+            back_text: back,
+            // sem tags no corpo o servidor mantém as que o card já tem
+            ...(tags !== undefined && { tags })
         });
 
         return data;
@@ -57,6 +60,31 @@ export async function update(cardId, front, back) {
     }
 }
 
+
+export async function searchCards({ q, tag, deckId } = {}) {
+    const params = {};
+
+    if (q) params.q = q;
+    if (tag) params.tag = tag;
+    if (deckId) params.deck_id = deckId;
+
+    const { data } = await api.get("/api/v1/card/search", { params });
+
+    return data;
+}
+
+export async function bulkCreate(deckId, cards) {
+    const { data } = await api.post("/api/v1/card/bulk", {
+        deck_id: deckId,
+        cards: cards.map(({ front, back, tags }) => ({
+            front_text: front,
+            back_text: back,
+            tags: tags || []
+        }))
+    });
+
+    return data;
+}
 
 export async function remove(cardId) {
     try {
