@@ -1,8 +1,9 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import PaginationBar from '@/components/PaginationBar.vue';
+import { getStats } from '@/services/stats/statsService.js';
 
 const router = useRouter();
 const store = useStore();
@@ -23,6 +24,7 @@ const hasDecks = computed(() => decks.value.length > 0);
 const user = computed(() => store.state.auth.user || {});
 const firstName = computed(() => (user.value.name || '').split(' ')[0]);
 const pagination = computed(() => store.state.deck.pagination);
+const streak = ref(0);
 
 async function changePage(page) {
   await store.dispatch('deck/fetchDecks', { page, forceRefresh: true });
@@ -53,6 +55,9 @@ onMounted(async () => {
     store.dispatch('deck/fetchDecks', true),
     store.dispatch('auth/fetchMe')
   ]);
+
+  // a sequência é um extra: se falhar, a Home continua funcionando sem ela
+  getStats().then(stats => { streak.value = stats.current_streak; }).catch(() => {});
 });
 
 function goToCreateDeck() {
@@ -104,6 +109,13 @@ function studyFirstPending() {
               Nenhuma revisão pendente{{ firstName ? ', ' + firstName : '' }}. Que tal adicionar novos cards?
             </template>
           </p>
+          <router-link
+            v-if="streak > 0"
+            :to="{ name: 'StatsPage' }"
+            class="self-start mt-2 inline-flex items-center rounded-full bg-pending-500/15 text-fg-pending text-sm font-medium px-3 py-1 hover:bg-pending-500/25 transition-colors"
+          >
+            Sequência de {{ plural(streak, 'dia', 'dias') }}
+          </router-link>
         </div>
         <button
           v-if="pendingTotal > 0"

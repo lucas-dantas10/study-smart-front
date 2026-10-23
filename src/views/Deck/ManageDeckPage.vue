@@ -12,8 +12,21 @@ const deckName = route.params.deckTitle;
 
 const cards = computed(() => store.getters['card/cardsByDeck'](deckId));
 
+const filter = ref('')
 const showDeleteModal = ref(false)
 const cardToDelete = ref(null)
+
+// filtra por texto da frente/verso ou por tag, só nos cards já carregados deste deck
+const visibleCards = computed(() => {
+  const term = filter.value.trim().toLowerCase()
+  if (!term) return cards.value
+
+  return cards.value.filter(card =>
+    card.front_text.toLowerCase().includes(term) ||
+    card.back_text.toLowerCase().includes(term) ||
+    (card.tags || []).some(tag => tag.includes(term))
+  )
+})
 
 onMounted(async () => {
   try {
@@ -23,7 +36,11 @@ onMounted(async () => {
 })
 
 function createCard() {
-  router.push({name: 'CreateCardFormPage'})
+  router.push({name: 'CreateCardFormPage', params: {deckId}})
+}
+
+function bulkAdd() {
+  router.push({name: 'BulkAddCardsPage', params: {deckId}})
 }
 
 function editCard(cardId) {
@@ -51,109 +68,144 @@ function cancelDeleteCard() {
 function goBack() {
   router.push({name: 'DeckPage'});
 }
+
+function plural(n, one, many) {
+  return `${n} ${n === 1 ? one : many}`
+}
 </script>
 
 <template>
-  <div class="px-40 flex flex-1 justify-center py-5 bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100">
-    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+  <div class="px-2 sm:px-6 md:px-12 lg:px-24 flex flex-1 justify-center py-5 text-gray-800 dark:text-gray-100">
+    <div class="flex flex-col max-w-[960px] flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4 items-center">
         <div class="flex items-center gap-3">
           <button
               @click="goBack"
-              class="flex items-center justify-center overflow-hidden rounded-full h-8 w-8 bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 text-gray-600 dark:text-gray-300 hover:text-fg-primary dark:hover:text-fg-primary cursor-pointer transition shadow-sm"
+              class="flex items-center justify-center overflow-hidden rounded-full h-9 w-9 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-300 hover:text-fg-primary cursor-pointer transition"
+              aria-label="Voltar para os decks"
               title="Voltar"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor" stroke-width="2">
+                 stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
             </svg>
           </button>
           <div>
-            <p class="tracking-light text-[32px] font-bold leading-tight min-w-72 text-fg-primary">Gerenciar Cards</p>
+            <h1 class="text-2xl sm:text-3xl font-bold leading-tight">Gerenciar cards</h1>
             <p class="text-fg-muted text-sm">Deck: {{ deckName }}</p>
           </div>
         </div>
-        <button
-            @click="createCard"
-            class="flex items-center justify-center overflow-hidden rounded-full h-9 px-5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold cursor-pointer transition-all shadow-lg shadow-primary-500/10"
-        >
-          Novo Card
-        </button>
+        <div class="flex gap-2">
+          <button
+              @click="bulkAdd"
+              class="cursor-pointer rounded-xl h-10 px-4 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-fg-primary transition-colors"
+          >
+            Adicionar vários
+          </button>
+          <button
+              @click="createCard"
+              class="cursor-pointer rounded-xl h-10 px-5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold transition-colors"
+          >
+            Novo card
+          </button>
+        </div>
       </div>
 
-      <div v-if="cards.length" class="flex flex-col gap-4 p-4">
-        <div
-            v-for="card in cards"
+      <div v-if="cards.length" class="px-4 pb-2">
+        <label for="filter-cards" class="sr-only">Filtrar cards deste deck</label>
+        <input
+            id="filter-cards"
+            v-model="filter"
+            type="search"
+            placeholder="Filtrar por texto ou tag"
+            class="w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-4 py-2.5 text-base focus:outline-0 focus:ring-2 focus:ring-primary-500/20 placeholder:text-fg-muted"
+        />
+        <p class="text-sm text-fg-muted mt-2" aria-live="polite">
+          {{ filter.trim() ? `${plural(visibleCards.length, 'card encontrado', 'cards encontrados')} de ${cards.length}.` : plural(cards.length, 'card', 'cards') + ' neste deck.' }}
+        </p>
+      </div>
+
+      <ul v-if="visibleCards.length" class="flex flex-col gap-3 p-4 list-none">
+        <li
+            v-for="card in visibleCards"
             :key="card.id"
-            class="bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow"
+            class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-800 rounded-2xl p-5 flex flex-col gap-3"
         >
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-            <div>
-              <p class="text-base font-semibold text-gray-800 dark:text-gray-100">
+            <div class="min-w-0">
+              <p class="text-base font-semibold text-gray-800 dark:text-gray-100 break-words">
                 {{ card.front_text }}
               </p>
-              <p class="text-sm text-fg-muted">
+              <p class="text-sm text-fg-muted break-words">
                 {{ card.back_text }}
               </p>
+              <div v-if="card.tags && card.tags.length" class="flex flex-wrap gap-1.5 mt-2">
+                <button
+                    v-for="tag in card.tags"
+                    :key="tag"
+                    class="cursor-pointer text-xs rounded-full bg-gray-100 dark:bg-gray-800 text-fg-muted hover:text-fg-primary px-2.5 py-0.5 transition-colors"
+                    :title="`Filtrar pela tag ${tag}`"
+                    @click="filter = tag"
+                >
+                  {{ tag }}
+                </button>
+              </div>
             </div>
 
-            <div class="flex-shrink-0">
-              <span
-                  v-if="card.next_review_at"
-                  class="inline-block text-xs sm:text-sm text-white bg-secondary-500 px-3 py-1 rounded-full whitespace-nowrap shadow-sm"
-              >
-                📅 {{ card.next_review_at }}
-              </span>
-              <span
-                  v-else
-                  class="inline-block text-xs sm:text-sm text-fg-muted bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full whitespace-nowrap"
-              >
-                Nenhuma revisão
-              </span>
-            </div>
+            <p class="shrink-0 text-xs sm:text-sm rounded-full px-3 py-1 whitespace-nowrap"
+               :class="card.next_review_at ? 'bg-primary-50 dark:bg-primary-500/15 text-fg-primary' : 'bg-gray-100 dark:bg-gray-800 text-fg-muted'">
+              {{ card.next_review_at ? `Próxima revisão: ${card.next_review_at}` : 'Nunca revisado' }}
+            </p>
           </div>
 
-          <div class="flex gap-2 mt-2">
+          <div class="flex gap-2">
             <button
                 @click="editCard(card.id)"
-                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-primary-50 dark:bg-primary-500/10 hover:bg-primary-100 dark:hover:bg-primary-500/20 text-sm text-fg-primary font-medium rounded-full transition"
+                class="cursor-pointer px-4 h-9 bg-primary-50 dark:bg-primary-500/10 hover:bg-primary-100 dark:hover:bg-primary-500/20 text-sm text-fg-primary font-medium rounded-full transition"
             >
               Editar
             </button>
             <button
                 @click="deleteCard(card.id)"
-                class="flex items-center justify-center px-4 h-8 cursor-pointer bg-error-500/10 hover:bg-error-500/20 text-sm text-fg-error font-medium rounded-full transition"
+                class="cursor-pointer px-4 h-9 bg-error-500/10 hover:bg-error-500/20 text-sm text-fg-error font-medium rounded-full transition"
             >
               Excluir
             </button>
           </div>
-        </div>
+        </li>
+      </ul>
+
+      <div v-else-if="cards.length" class="flex flex-col items-center gap-2 mt-8 p-8 text-center">
+        <p class="font-semibold">Nenhum card encontrado</p>
+        <button class="cursor-pointer text-sm text-fg-primary hover:underline" @click="filter = ''">Limpar filtro</button>
       </div>
 
       <div v-else class="flex flex-col items-center gap-4 mt-12 bg-surface-light dark:bg-surface-dark p-12 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-fg-primary animate-pulse" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6"/>
-        </svg>
-        <p class="text-xl font-bold text-gray-800 dark:text-gray-100">Nenhum card encontrado</p>
+        <p class="text-xl font-bold text-gray-800 dark:text-gray-100">Este deck ainda não tem cards</p>
         <p class="text-base text-fg-muted text-center max-w-sm">
-          Este deck ainda está vázio. Comece criando seu primeiro card agora para começar sua jornada!
+          Crie o primeiro card ou cole uma lista inteira de uma vez.
         </p>
-        <button
-            @click="createCard"
-            class="mt-4 flex items-center justify-center overflow-hidden rounded-full h-11 px-8 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold cursor-pointer transition-all shadow-lg hover:shadow-primary-500/20"
-        >
-          Criar Primeiro Card
-        </button>
+        <div class="flex flex-col sm:flex-row gap-3 mt-2">
+          <button
+              @click="createCard"
+              class="cursor-pointer rounded-xl h-11 px-8 bg-primary-500 hover:bg-primary-600 text-white text-sm font-bold transition-colors"
+          >
+            Criar primeiro card
+          </button>
+          <button
+              @click="bulkAdd"
+              class="cursor-pointer rounded-xl h-11 px-8 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-primary-50 dark:hover:bg-primary-500/10 transition-colors"
+          >
+            Adicionar vários
+          </button>
+        </div>
       </div>
 
       <ConfirmationModal
           :show="showDeleteModal"
-          title="Excluir Card"
+          title="Excluir card"
           message="Tem certeza que deseja excluir este card? Esta ação não pode ser desfeita."
-          confirm-text="Excluir"
+          confirm-text="Excluir card"
           cancel-text="Cancelar"
           @confirm="confirmDeleteCard"
           @cancel="cancelDeleteCard"

@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import TagsInput from '@/components/TagsInput.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -14,12 +15,14 @@ const front = ref('');
 const back = ref('');
 const frontError = ref('');
 const backError = ref('');
+const tags = ref([]);
 
 onMounted(async () => {
   const card = await store.dispatch('card/fetchCard', cardId);
 
   front.value = card.front_text;
   back.value = card.back_text;
+  tags.value = card.tags || [];
 })
 
 async function saveCard() {
@@ -43,7 +46,7 @@ async function saveCard() {
     return;
   }
 
-  await store.dispatch('card/updateCard', { cardId, front: front.value, back: back.value, deckId });
+  await store.dispatch('card/updateCard', { cardId, front: front.value, back: back.value, deckId, tags: tags.value });
   router.back()
 }
 
@@ -93,6 +96,11 @@ function goBack() {
             :class="{'border-error-500!': backError}"
           ></textarea>
           <p v-if="backError" class="text-fg-error text-sm mt-1">{{ backError }}</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="card-tags" class="text-sm font-medium text-gray-700 dark:text-gray-300">Tags <span class="text-fg-muted font-normal">(opcional)</span></label>
+          <TagsInput id="card-tags" v-model="tags" />
         </div>
 
         <div class="flex gap-4 mt-6">
